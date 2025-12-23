@@ -1,42 +1,43 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
+  base: "/zenith/",
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icons/*.png'],
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.svg", "icons/*.png"],
       manifest: {
-        name: 'Zenith Workout',
-        short_name: 'Zenith',
-        description: 'Personal workout tracking PWA',
-        theme_color: '#0a0a0a',
-        background_color: '#0a0a0a',
-        display: 'standalone',
-        orientation: 'portrait',
+        name: "Zenith",
+        short_name: "Zenith",
+        description: "Personal workout tracking PWA",
+        theme_color: "#0a0a0a",
+        background_color: "#0a0a0a",
+        display: "standalone",
+        orientation: "portrait",
         icons: [
           {
-            src: 'icons/icon-192.png',
-            sizes: '192x192',
-            type: 'image/png',
+            src: "icons/icon-192.png",
+            sizes: "192x192",
+            type: "image/png",
           },
           {
-            src: 'icons/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
+            src: "icons/icon-512.png",
+            sizes: "512x512",
+            type: "image/png",
           },
           {
-            src: 'icons/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'maskable',
+            src: "icons/icon-512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
           },
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
       },
     }),
   ],
