@@ -19,6 +19,7 @@ export type ExerciseType =
   | "machine-assistance"
   | "smith-machine"
   | "cable"
+  | "freemotion"
   | "bodyweight"
   | "loaded-bodyweight";
 
@@ -73,6 +74,7 @@ export const EXERCISE_TYPES: ExerciseType[] = [
   "machine-assistance",
   "smith-machine",
   "cable",
+  "freemotion",
   "bodyweight",
   "loaded-bodyweight",
 ];
@@ -99,6 +101,7 @@ export const exerciseTypeLabels: Record<ExerciseType, string> = {
   "machine-assistance": "Machine Assistance",
   "smith-machine": "Smith Machine",
   cable: "Cable",
+  freemotion: "Freemotion",
   bodyweight: "Bodyweight",
   "loaded-bodyweight": "Loaded Bodyweight",
 };
