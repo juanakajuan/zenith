@@ -1526,6 +1526,105 @@ export const DEFAULT_EXERCISES: Exercise[] = [
   },
 
   /** --- HAMSTRINGS ----------------- */
+  {
+    id: "default-back-raise-45-degree",
+    name: "Back Raise (45 degree)",
+    muscleGroup: "hamstrings",
+    exerciseType: "bodyweight",
+    notes: "",
+  },
+  {
+    id: "default-back-raise-glute-ham-deck",
+    name: "Back Raise (Glute Ham Deck)",
+    muscleGroup: "hamstrings",
+    exerciseType: "bodyweight",
+    notes: "",
+  },
+  {
+    id: "default-barbell-good-morning-cambered-bar",
+    name: "Barbell Good Morning (Cambered Bar)",
+    muscleGroup: "hamstrings",
+    exerciseType: "barbell",
+    notes: "",
+  },
+  {
+    id: "default-barbell-good-morning-high-bar",
+    name: "Barbell Good Morning (High Bar)",
+    muscleGroup: "hamstrings",
+    exerciseType: "barbell",
+    notes: "Last performed 11/10/2025",
+  },
+  {
+    id: "default-barbell-good-morning-low-bar",
+    name: "Barbell Good Morning (Low Bar)",
+    muscleGroup: "hamstrings",
+    exerciseType: "barbell",
+    notes: "",
+  },
+  {
+    id: "default-barbell-good-morning-safety-bar",
+    name: "Barbell Good Morning (Safety Bar)",
+    muscleGroup: "hamstrings",
+    exerciseType: "barbell",
+    notes: "",
+  },
+  {
+    id: "default-dumbbell-stiff-legged-deadlift",
+    name: "Dumbbell Stiff Legged Deadlift",
+    muscleGroup: "hamstrings",
+    exerciseType: "dumbbell",
+    notes: "",
+  },
+  {
+    id: "default-lying-leg-curl",
+    name: "Lying Leg Curl",
+    muscleGroup: "hamstrings",
+    exerciseType: "machine",
+    notes: "Last performed 7/6/2025",
+  },
+  {
+    id: "default-nordic-curl",
+    name: "Nordic Curl",
+    muscleGroup: "hamstrings",
+    exerciseType: "bodyweight",
+    notes: "",
+  },
+  {
+    id: "default-seated-leg-curl",
+    name: "Seated Leg Curl",
+    muscleGroup: "hamstrings",
+    exerciseType: "machine",
+    notes: "Last performed 11/5/2025",
+  },
+  {
+    id: "default-single-leg-romanian-deadlift",
+    name: "Single Leg Romanian Deadlift",
+    muscleGroup: "hamstrings",
+    exerciseType: "dumbbell",
+    notes: "",
+  },
+  {
+    id: "default-single-leg-leg-curl",
+    name: "Single-Leg Leg Curl",
+    muscleGroup: "hamstrings",
+    exerciseType: "machine",
+    notes: "",
+  },
+  {
+    id: "default-smith-machine-good-morning",
+    name: "Smith Machine Good Morning",
+    muscleGroup: "hamstrings",
+    exerciseType: "smith-machine",
+    notes: "Last performed 2/9/2025",
+  },
+  {
+    id: "default-stiff-legged-deadlift",
+    name: "Stiff-Legged Deadlift",
+    muscleGroup: "hamstrings",
+    exerciseType: "barbell",
+    notes: "Last performed 12/8/2024",
+  },
+
   /** --- GLUTES --------------------- */
   /** --- CALVES --------------------- */
   /** --- TRAPS ---------------------- */
