@@ -12,7 +12,15 @@ export type MuscleGroup =
   | "abs"
   | "traps";
 
-export type ExerciseType = "barbell" | "dumbbell" | "machine" | "cable" | "bodyweight";
+export type ExerciseType =
+  | "barbell"
+  | "dumbbell"
+  | "machine"
+  | "machine-assistance"
+  | "smith-machine"
+  | "cable"
+  | "bodyweight"
+  | "loaded-bodyweight";
 
 export interface Exercise {
   id: string;
@@ -62,8 +70,11 @@ export const EXERCISE_TYPES: ExerciseType[] = [
   "barbell",
   "dumbbell",
   "machine",
+  "machine-assistance",
+  "smith-machine",
   "cable",
   "bodyweight",
+  "loaded-bodyweight",
 ];
 
 export const muscleGroupLabels: Record<MuscleGroup, string> = {
@@ -85,6 +96,9 @@ export const exerciseTypeLabels: Record<ExerciseType, string> = {
   barbell: "Barbell",
   dumbbell: "Dumbbell",
   machine: "Machine",
+  "machine-assistance": "Machine Assistance",
+  "smith-machine": "Smith Machine",
   cable: "Cable",
   bodyweight: "Bodyweight",
+  "loaded-bodyweight": "Loaded Bodyweight",
 };
