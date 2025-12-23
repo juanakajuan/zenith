@@ -119,10 +119,16 @@
   margin-bottom: 1rem;
 }
 
+.exercise-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
 .workout-exercise-name {
   font-size: 1.1rem;
   font-weight: 600;
-  margin-top: 0.5rem;
 }
 
 /* Sets table */

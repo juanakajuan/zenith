@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES } from "../utils/storage";
 import type { Exercise, Workout, WorkoutExercise, WorkoutSet } from "../types";
-import { muscleGroupLabels } from "../types";
+import { muscleGroupLabels, exerciseTypeLabels } from "../types";
 import { SetRow } from "../components/SetRow";
 import { ExerciseSelector } from "../components/ExerciseSelector";
 import "./WorkoutPage.css";
@@ -245,7 +245,12 @@ export function WorkoutPage() {
                     <span className="tag tag-accent">
                       {muscleGroupLabels[exercise.muscleGroup]}
                     </span>
-                    <h3 className="workout-exercise-name">{exercise.name}</h3>
+                    <div className="exercise-name-row">
+                      <h3 className="workout-exercise-name">{exercise.name}</h3>
+                      <span className="tag tag-muted">
+                        {exerciseTypeLabels[exercise.exerciseType]}
+                      </span>
+                    </div>
                   </div>
                   <button
                     className="btn btn-icon btn-ghost"
