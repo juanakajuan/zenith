@@ -40,6 +40,7 @@ export function SetRow({ set, setNumber, onUpdate, onRemove }: SetRowProps) {
           value={set.weight || ""}
           onChange={(e) => onUpdate({ weight: parseFloat(e.target.value) || 0 })}
           placeholder="0"
+          disabled={set.completed}
         />
         <span className="unit">lbs</span>
       </div>
@@ -50,6 +51,7 @@ export function SetRow({ set, setNumber, onUpdate, onRemove }: SetRowProps) {
           value={set.reps || ""}
           onChange={(e) => onUpdate({ reps: parseInt(e.target.value) || 0 })}
           placeholder="0"
+          disabled={set.completed}
         />
       </div>
       <div className="set-done">
