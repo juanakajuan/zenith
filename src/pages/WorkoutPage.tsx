@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { STORAGE_KEYS, generateId } from "../utils/storage";
+import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES } from "../utils/storage";
 import type { Exercise, Workout, WorkoutExercise, WorkoutSet } from "../types";
 import { muscleGroupLabels } from "../types";
 import { SetRow } from "../components/SetRow";
@@ -17,6 +17,9 @@ export function WorkoutPage() {
   const [showExerciseSelector, setShowExerciseSelector] = useState(false);
   const [workoutName, setWorkoutName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
+
+  // Merge default exercises with user exercises
+  const allExercises = [...DEFAULT_EXERCISES, ...exercises];
 
   const startNewWorkout = () => {
     const today = new Date();
@@ -130,7 +133,7 @@ export function WorkoutPage() {
     }
   };
 
-  const getExerciseById = (id: string) => exercises.find((e) => e.id === id);
+  const getExerciseById = (id: string) => allExercises.find((e) => e.id === id);
 
   // No active workout - show start screen
   if (!activeWorkout) {
@@ -356,7 +359,7 @@ export function WorkoutPage() {
 
       {showExerciseSelector && (
         <ExerciseSelector
-          exercises={exercises}
+          exercises={allExercises}
           onSelect={addExerciseToWorkout}
           onClose={() => setShowExerciseSelector(false)}
         />

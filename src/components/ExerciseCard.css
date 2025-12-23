@@ -64,3 +64,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.tag-default {
+  background: var(--accent-dim);
+  color: var(--accent);
+}

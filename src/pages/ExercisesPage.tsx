@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { STORAGE_KEYS, generateId } from "../utils/storage";
+import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES, isDefaultExercise } from "../utils/storage";
 import type { Exercise, MuscleGroup } from "../types";
 import { MUSCLE_GROUPS, EXERCISE_TYPES, muscleGroupLabels, exerciseTypeLabels } from "../types";
 import { ExerciseCard } from "../components/ExerciseCard";
@@ -13,8 +13,11 @@ export function ExercisesPage() {
   const [editingExercise, setEditingExercise] = useState<Exercise | null>(null);
   const [filterMuscle, setFilterMuscle] = useState<MuscleGroup | "all">("all");
 
+  // Merge default exercises with user exercises
+  const allExercises = [...DEFAULT_EXERCISES, ...exercises];
+
   const filteredExercises =
-    filterMuscle === "all" ? exercises : exercises.filter((e) => e.muscleGroup === filterMuscle);
+    filterMuscle === "all" ? allExercises : allExercises.filter((e) => e.muscleGroup === filterMuscle);
 
   const groupedExercises = filteredExercises.reduce(
     (acc, exercise) => {
@@ -120,6 +123,7 @@ export function ExercisesPage() {
                     exercise={exercise}
                     onEdit={() => handleEdit(exercise)}
                     onDelete={() => handleDelete(exercise.id)}
+                    isDefault={isDefaultExercise(exercise.id)}
                   />
                 ))}
               </div>

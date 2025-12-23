@@ -6,8 +6,14 @@ export const STORAGE_KEYS = {
   ACTIVE_WORKOUT: "zenith_active_workout",
 } as const;
 
+export { DEFAULT_EXERCISES } from "../data/defaultExercises";
+
 export function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+}
+
+export function isDefaultExercise(exerciseId: string): boolean {
+  return exerciseId.startsWith("default-");
 }
 
 export function getExercises(): Exercise[] {
