@@ -1,0 +1,90 @@
+export type MuscleGroup =
+  | "chest"
+  | "back"
+  | "shoulders"
+  | "biceps"
+  | "triceps"
+  | "forearms"
+  | "quads"
+  | "hamstrings"
+  | "glutes"
+  | "calves"
+  | "abs"
+  | "traps";
+
+export type ExerciseType = "barbell" | "dumbbell" | "machine" | "cable" | "bodyweight";
+
+export interface Exercise {
+  id: string;
+  name: string;
+  muscleGroup: MuscleGroup;
+  exerciseType: ExerciseType;
+  notes: string;
+}
+
+export interface WorkoutSet {
+  id: string;
+  weight: number; // lbs
+  reps: number;
+  completed: boolean;
+}
+
+export interface WorkoutExercise {
+  id: string;
+  exerciseId: string;
+  sets: WorkoutSet[];
+}
+
+export interface Workout {
+  id: string;
+  name: string;
+  date: string; // ISO date
+  exercises: WorkoutExercise[];
+  completed: boolean;
+}
+
+export const MUSCLE_GROUPS: MuscleGroup[] = [
+  "chest",
+  "back",
+  "shoulders",
+  "biceps",
+  "triceps",
+  "forearms",
+  "quads",
+  "hamstrings",
+  "glutes",
+  "calves",
+  "abs",
+  "traps",
+];
+
+export const EXERCISE_TYPES: ExerciseType[] = [
+  "barbell",
+  "dumbbell",
+  "machine",
+  "cable",
+  "bodyweight",
+];
+
+export const muscleGroupLabels: Record<MuscleGroup, string> = {
+  chest: "Chest",
+  back: "Back",
+  shoulders: "Shoulders",
+  biceps: "Biceps",
+  triceps: "Triceps",
+  forearms: "Forearms",
+  quads: "Quads",
+  hamstrings: "Hamstrings",
+  glutes: "Glutes",
+  calves: "Calves",
+  abs: "Abs",
+  traps: "Traps",
+};
+
+export const exerciseTypeLabels: Record<ExerciseType, string> = {
+  barbell: "Barbell",
+  dumbbell: "Dumbbell",
+  machine: "Machine",
+  cable: "Cable",
+  bodyweight: "Bodyweight",
+};

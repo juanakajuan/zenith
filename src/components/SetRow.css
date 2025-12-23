@@ -1,0 +1,93 @@
+.set-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 50px;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  transition: opacity var(--transition);
+}
+
+.set-row:last-child {
+  border-bottom: none;
+}
+
+.set-row.completed {
+  opacity: 0.6;
+}
+
+.set-number {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.remove-set-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.remove-set-btn:hover {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.set-weight,
+.set-reps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.set-weight input,
+.set-reps input {
+  width: 70px;
+  padding: 0.5rem 0.6rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.set-weight input:focus,
+.set-reps input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.unit {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  min-width: 20px;
+}
+
+.set-done {
+  display: flex;
+  justify-content: center;
+}
+
+/* Hide number input spinners */
+.set-weight input::-webkit-inner-spin-button,
+.set-weight input::-webkit-outer-spin-button,
+.set-reps input::-webkit-inner-spin-button,
+.set-reps input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.set-weight input[type="number"],
+.set-reps input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
