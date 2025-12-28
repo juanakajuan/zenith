@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Plus, Dumbbell } from "lucide-react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES, isDefaultExercise } from "../utils/storage";
 import type { Exercise, MuscleGroup } from "../types";
@@ -59,20 +60,7 @@ export function ExercisesPage() {
       <header className="page-header">
         <h1 className="page-title">Exercises</h1>
         <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14" />
-            <path d="M12 5v14" />
-          </svg>
+          <Plus size={20} strokeWidth={2.5} />
           New
         </button>
       </header>
@@ -94,23 +82,7 @@ export function ExercisesPage() {
 
       {filteredExercises.length === 0 ? (
         <div className="empty-state">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m6.5 6.5 11 11" />
-            <path d="m21 21-1-1" />
-            <path d="m3 3 1 1" />
-            <path d="m18 22 4-4" />
-            <path d="m2 6 4-4" />
-            <path d="m3 10 7-7" />
-            <path d="m14 21 7-7" />
-          </svg>
+          <Dumbbell size={48} strokeWidth={1.5} />
           <p>No exercises yet. Add your first exercise!</p>
         </div>
       ) : (

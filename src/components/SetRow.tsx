@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { MoreVertical, Trash2, Check } from "lucide-react";
 import type { WorkoutSet } from "../types";
 import "./SetRow.css";
 
@@ -42,36 +43,12 @@ export function SetRow({ set, onUpdate, onRemove, canRemove }: SetRowProps) {
           aria-label="Set options"
           aria-expanded={menuOpen}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <circle cx="12" cy="5" r="2" />
-            <circle cx="12" cy="12" r="2" />
-            <circle cx="12" cy="19" r="2" />
-          </svg>
+          <MoreVertical size={16} />
         </button>
         {menuOpen && (
           <div className="set-menu-dropdown">
             <button className="set-menu-item danger" onClick={handleDelete} disabled={!canRemove}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M3 6h18" />
-                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-              </svg>
+              <Trash2 size={16} />
               Delete set
             </button>
           </div>
@@ -111,17 +88,7 @@ export function SetRow({ set, onUpdate, onRemove, canRemove }: SetRowProps) {
           onClick={() => onUpdate({ completed: !set.completed })}
           aria-label={set.completed ? "Mark incomplete" : "Mark complete"}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M20 6 9 17l-5-5" />
-          </svg>
+          <Check size={16} strokeWidth={3} />
         </button>
       </div>
     </div>

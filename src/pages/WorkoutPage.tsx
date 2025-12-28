@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CirclePlay, Pencil, Trash2, Plus, Check, X } from "lucide-react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES } from "../utils/storage";
 import type { Exercise, Workout, WorkoutExercise, WorkoutSet } from "../types";
@@ -151,20 +152,7 @@ export function WorkoutPage() {
         </header>
         <div className="start-workout-container">
           <div className="start-workout-card">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polygon points="10,8 16,12 10,16" />
-            </svg>
+            <CirclePlay size={48} strokeWidth={1.5} />
             <h2>Ready to train?</h2>
             <p>Start a new workout to begin tracking your exercises.</p>
             <button className="btn btn-primary start-btn" onClick={startNewWorkout}>
@@ -194,19 +182,7 @@ export function WorkoutPage() {
           ) : (
             <h1 className="workout-name" onClick={() => setIsEditingName(true)}>
               {workoutName || activeWorkout.name}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-              </svg>
+              <Pencil size={16} />
             </h1>
           )}
         </div>
@@ -248,21 +224,7 @@ export function WorkoutPage() {
                     onClick={() => removeExerciseFromWorkout(workoutExercise.id)}
                     aria-label="Remove exercise"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M3 6h18" />
-                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                    </svg>
+                    <Trash2 size={20} />
                   </button>
                 </div>
 
@@ -285,20 +247,7 @@ export function WorkoutPage() {
                 </div>
 
                 <button className="add-set-btn" onClick={() => addSet(workoutExercise.id)}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="M12 5v14" />
-                  </svg>
+                  <Plus size={16} />
                   Add Set
                 </button>
               </div>
@@ -312,20 +261,7 @@ export function WorkoutPage() {
           className="btn btn-secondary add-exercise-btn"
           onClick={() => setShowExerciseSelector(true)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14" />
-            <path d="M12 5v14" />
-          </svg>
+          <Plus size={20} />
           Add Exercise
         </button>
 
@@ -337,37 +273,12 @@ export function WorkoutPage() {
         >
           {allSetsCompleted() ? (
             <>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
+              <Check size={20} strokeWidth={2.5} />
               Finish Workout
             </>
           ) : (
             <>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <X size={20} />
               Cancel Workout
             </>
           )}

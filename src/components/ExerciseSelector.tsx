@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { X, Search, Plus } from "lucide-react";
 import type { Exercise, MuscleGroup } from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, MUSCLE_GROUPS } from "../types";
 import "./ExerciseSelector.css";
@@ -42,39 +43,13 @@ export function ExerciseSelector({ exercises, onSelect, onClose }: ExerciseSelec
         <div className="modal-header">
           <h2 className="modal-title">Select Exercise</h2>
           <button className="btn btn-icon btn-ghost" onClick={onClose} aria-label="Close">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
+            <X size={20} />
           </button>
         </div>
 
         <div className="selector-filters">
           <div className="search-input-wrapper">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
+            <Search size={20} />
             <input
               type="text"
               placeholder="Search exercises..."
@@ -122,20 +97,7 @@ export function ExerciseSelector({ exercises, onSelect, onClose }: ExerciseSelec
                         {exerciseTypeLabels[exercise.exerciseType]}
                       </span>
                     </div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M5 12h14" />
-                      <path d="M12 5v14" />
-                    </svg>
+                    <Plus size={20} />
                   </button>
                 ))}
               </div>
