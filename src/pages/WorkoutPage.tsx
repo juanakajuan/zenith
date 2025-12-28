@@ -209,22 +209,6 @@ export function WorkoutPage() {
               </svg>
             </h1>
           )}
-          <button className="btn btn-ghost btn-icon" onClick={cancelWorkout} aria-label="Cancel">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </button>
         </div>
         <p className="workout-date">
           {new Date(activeWorkout.date).toLocaleDateString("en-US", {
@@ -351,7 +335,9 @@ export function WorkoutPage() {
 
         {activeWorkout.exercises.length > 0 && (
           <button
-            className={allSetsCompleted() ? "btn btn-primary finish-btn" : "btn btn-secondary finish-btn"}
+            className={
+              allSetsCompleted() ? "btn btn-primary finish-btn" : "btn btn-secondary finish-btn"
+            }
             onClick={allSetsCompleted() ? finishWorkout : cancelWorkout}
           >
             {allSetsCompleted() ? (
