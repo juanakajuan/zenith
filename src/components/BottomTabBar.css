@@ -11,6 +11,7 @@
   padding: 0.5rem 0;
   padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
   z-index: 50;
+  height: 60px;
 }
 
 .tab {
@@ -22,6 +23,7 @@
   color: var(--text-muted);
   transition: color var(--transition);
   text-decoration: none;
+  height: 60px;
 }
 
 .tab svg {
