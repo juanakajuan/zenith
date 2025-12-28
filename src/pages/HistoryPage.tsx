@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { STORAGE_KEYS } from "../utils/storage";
+import { STORAGE_KEYS, DEFAULT_EXERCISES } from "../utils/storage";
 import type { Exercise, Workout } from "../types";
 import { WorkoutDetailModal } from "../components/WorkoutDetailModal";
 import "./HistoryPage.css";
 
 export function HistoryPage() {
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
-  const [exercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
+  const [userExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
 
-  const getExerciseById = (id: string) => exercises.find((e) => e.id === id);
+  // Merge default exercises with user exercises
+  const allExercises = [...DEFAULT_EXERCISES, ...userExercises];
+
+  const getExerciseById = (id: string) => allExercises.find((e) => e.id === id);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -148,7 +151,7 @@ export function HistoryPage() {
       {selectedWorkout && (
         <WorkoutDetailModal
           workout={selectedWorkout}
-          exercises={exercises}
+          exercises={allExercises}
           onClose={() => setSelectedWorkout(null)}
           onDelete={() => handleDeleteWorkout(selectedWorkout.id)}
         />
