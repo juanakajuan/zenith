@@ -17,7 +17,9 @@ export function ExercisesPage() {
   const allExercises = [...DEFAULT_EXERCISES, ...exercises];
 
   const filteredExercises =
-    filterMuscle === "all" ? allExercises : allExercises.filter((e) => e.muscleGroup === filterMuscle);
+    filterMuscle === "all"
+      ? allExercises
+      : allExercises.filter((e) => e.muscleGroup === filterMuscle);
 
   const groupedExercises = filteredExercises.reduce(
     (acc, exercise) => {
@@ -121,8 +123,9 @@ export function ExercisesPage() {
                   <ExerciseCard
                     key={exercise.id}
                     exercise={exercise}
-                    onEdit={() => handleEdit(exercise)}
-                    onDelete={() => handleDelete(exercise.id)}
+                    onClick={
+                      isDefaultExercise(exercise.id) ? undefined : () => handleEdit(exercise)
+                    }
                     isDefault={isDefaultExercise(exercise.id)}
                   />
                 ))}
@@ -137,6 +140,14 @@ export function ExercisesPage() {
           exercise={editingExercise}
           onSave={handleSave}
           onClose={handleCloseModal}
+          onDelete={
+            editingExercise
+              ? () => {
+                  handleDelete(editingExercise.id);
+                  handleCloseModal();
+                }
+              : undefined
+          }
           muscleGroups={MUSCLE_GROUPS}
           exerciseTypes={EXERCISE_TYPES}
           muscleGroupLabels={muscleGroupLabels}

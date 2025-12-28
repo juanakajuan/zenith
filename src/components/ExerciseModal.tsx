@@ -6,6 +6,7 @@ interface ExerciseModalProps {
   exercise: Exercise | null;
   onSave: (data: Omit<Exercise, "id">) => void;
   onClose: () => void;
+  onDelete?: () => void;
   muscleGroups: MuscleGroup[];
   exerciseTypes: ExerciseType[];
   muscleGroupLabels: Record<MuscleGroup, string>;
@@ -16,6 +17,7 @@ export function ExerciseModal({
   exercise,
   onSave,
   onClose,
+  onDelete,
   muscleGroups,
   exerciseTypes,
   muscleGroupLabels,
@@ -129,9 +131,11 @@ export function ExerciseModal({
           </div>
 
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Cancel
-            </button>
+            {exercise && onDelete && (
+              <button type="button" className="btn btn-danger" onClick={onDelete}>
+                Delete
+              </button>
+            )}
             <button type="submit" className="btn btn-primary" disabled={!name.trim()}>
               {exercise ? "Save" : "Add Exercise"}
             </button>

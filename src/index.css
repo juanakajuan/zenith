@@ -198,6 +198,16 @@ a {
   color: var(--text-primary);
 }
 
+.btn-danger {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-danger:hover {
+  background: var(--accent-dim);
+}
+
 .btn-icon {
   padding: 0.6rem;
   border-radius: var(--radius-sm);
