@@ -87,10 +87,9 @@ export function SetRow({ set, onUpdate, onRemove, canRemove }: SetRowProps) {
             const value = parseFloat(e.target.value);
             onUpdate({ weight: value >= 0 ? value : 0 });
           }}
-          placeholder="0"
+          placeholder="lbs"
           disabled={set.completed}
         />
-        <span className="unit">lbs</span>
       </div>
       <div className="set-reps">
         <input
