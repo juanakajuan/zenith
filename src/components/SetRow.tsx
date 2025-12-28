@@ -37,8 +37,12 @@ export function SetRow({ set, setNumber, onUpdate, onRemove }: SetRowProps) {
         <input
           type="number"
           inputMode="decimal"
+          min="0"
           value={set.weight || ""}
-          onChange={(e) => onUpdate({ weight: parseFloat(e.target.value) || 0 })}
+          onChange={(e) => {
+            const value = parseFloat(e.target.value);
+            onUpdate({ weight: value >= 0 ? value : 0 });
+          }}
           placeholder="0"
           disabled={set.completed}
         />
@@ -48,8 +52,12 @@ export function SetRow({ set, setNumber, onUpdate, onRemove }: SetRowProps) {
         <input
           type="number"
           inputMode="numeric"
+          min="0"
           value={set.reps || ""}
-          onChange={(e) => onUpdate({ reps: parseInt(e.target.value) || 0 })}
+          onChange={(e) => {
+            const value = parseInt(e.target.value);
+            onUpdate({ reps: value >= 0 ? value : 0 });
+          }}
           placeholder="0"
           disabled={set.completed}
         />
