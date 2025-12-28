@@ -268,22 +268,18 @@ export function WorkoutPage() {
 
                 <div className="sets-container">
                   <div className="sets-header">
-                    <span className="set-col-num">SET</span>
+                    <span className="set-col-num"></span>
                     <span className="set-col-weight">WEIGHT</span>
                     <span className="set-col-reps">REPS</span>
                     <span className="set-col-done">LOG</span>
                   </div>
-                  {workoutExercise.sets.map((set, setIndex) => (
+                  {workoutExercise.sets.map((set) => (
                     <SetRow
                       key={set.id}
                       set={set}
-                      setNumber={setIndex + 1}
                       onUpdate={(updates) => updateSet(workoutExercise.id, set.id, updates)}
-                      onRemove={
-                        workoutExercise.sets.length > 1
-                          ? () => removeSet(workoutExercise.id, set.id)
-                          : undefined
-                      }
+                      onRemove={() => removeSet(workoutExercise.id, set.id)}
+                      canRemove={workoutExercise.sets.length > 1}
                     />
                   ))}
                 </div>
