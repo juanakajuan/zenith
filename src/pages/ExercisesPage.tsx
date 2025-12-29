@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Dumbbell } from "lucide-react";
+import { Plus, Dumbbell, Search } from "lucide-react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES, isDefaultExercise } from "../utils/storage";
 import type { Exercise, MuscleGroup } from "../types";
@@ -13,14 +13,17 @@ export function ExercisesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingExercise, setEditingExercise] = useState<Exercise | null>(null);
   const [filterMuscle, setFilterMuscle] = useState<MuscleGroup | "all">("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Merge default exercises with user exercises
   const allExercises = [...DEFAULT_EXERCISES, ...exercises];
 
-  const filteredExercises =
-    filterMuscle === "all"
-      ? allExercises
-      : allExercises.filter((e) => e.muscleGroup === filterMuscle);
+  const filteredExercises = allExercises.filter((exercise) => {
+    const matchesMuscle = filterMuscle === "all" || exercise.muscleGroup === filterMuscle;
+    const matchesSearch =
+      searchQuery === "" || exercise.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesMuscle && matchesSearch;
+  });
 
   const groupedExercises = filteredExercises.reduce(
     (acc, exercise) => {
@@ -66,6 +69,16 @@ export function ExercisesPage() {
       </header>
 
       <div className="filter-bar">
+        <div className="search-bar">
+          <Search size={20} className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search exercises..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
+          />
+        </div>
         <select
           value={filterMuscle}
           onChange={(e) => setFilterMuscle(e.target.value as MuscleGroup | "all")}
