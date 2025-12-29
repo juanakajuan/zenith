@@ -100,4 +100,3 @@ export const hamstringsExercises: Exercise[] = [
     notes: "Last performed 12/8/2024",
   },
 ];
-

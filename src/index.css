@@ -241,6 +241,67 @@ a {
   color: var(--text-secondary);
 }
 
+/* Muscle group colors */
+.tag-muscle-chest {
+  background: rgba(230, 122, 111, 0.15);
+  color: #e67a6f;
+}
+
+.tag-muscle-shoulders {
+  background: rgba(219, 157, 94, 0.15);
+  color: #db9d5e;
+}
+
+.tag-muscle-triceps {
+  background: rgba(201, 148, 112, 0.15);
+  color: #c99470;
+}
+
+.tag-muscle-back {
+  background: rgba(107, 163, 204, 0.15);
+  color: #6ba3cc;
+}
+
+.tag-muscle-traps {
+  background: rgba(148, 184, 212, 0.15);
+  color: #94b8d4;
+}
+
+.tag-muscle-biceps {
+  background: rgba(143, 146, 204, 0.15);
+  color: #8f92cc;
+}
+
+.tag-muscle-forearms {
+  background: rgba(181, 143, 194, 0.15);
+  color: #b58fc2;
+}
+
+.tag-muscle-quads {
+  background: rgba(107, 207, 176, 0.15);
+  color: #6bcfb0;
+}
+
+.tag-muscle-hamstrings {
+  background: rgba(125, 180, 146, 0.15);
+  color: #7db492;
+}
+
+.tag-muscle-glutes {
+  background: rgba(146, 202, 125, 0.15);
+  color: #92ca7d;
+}
+
+.tag-muscle-calves {
+  background: rgba(165, 209, 138, 0.15);
+  color: #a5d18a;
+}
+
+.tag-muscle-abs {
+  background: rgba(232, 181, 102, 0.15);
+  color: #e8b566;
+}
+
 .empty-state {
   display: flex;
   flex-direction: column;

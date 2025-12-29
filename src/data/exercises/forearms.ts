@@ -44,4 +44,3 @@ export const forearmsExercises: Exercise[] = [
     notes: "",
   },
 ];
-

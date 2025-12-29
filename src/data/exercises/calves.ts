@@ -51,4 +51,3 @@ export const calvesExercises: Exercise[] = [
     notes: "",
   },
 ];
-

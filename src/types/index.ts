@@ -117,3 +117,22 @@ export const exerciseTypeLabels: Record<ExerciseType, string> = {
   bodyweight: "Bodyweight",
   "loaded-bodyweight": "Loaded Bodyweight",
 };
+
+export const muscleGroupColors: Record<MuscleGroup, string> = {
+  chest: "#e67a6f",
+  shoulders: "#db9d5e",
+  triceps: "#c99470",
+  back: "#6ba3cc",
+  traps: "#94b8d4",
+  biceps: "#8f92cc",
+  forearms: "#b58fc2",
+  quads: "#6bcfb0",
+  hamstrings: "#7db492",
+  glutes: "#92ca7d",
+  calves: "#a5d18a",
+  abs: "#e8b566",
+};
+
+export function getMuscleGroupClassName(muscleGroup: MuscleGroup): string {
+  return `tag-muscle-${muscleGroup}`;
+}

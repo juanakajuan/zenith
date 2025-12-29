@@ -177,4 +177,3 @@ export const tricepsExercises: Exercise[] = [
     notes: "",
   },
 ];
-

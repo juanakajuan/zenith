@@ -3,7 +3,7 @@ import { CirclePlay, Pencil, Trash2, Plus, Check, X, Play, LayoutTemplate } from
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES } from "../utils/storage";
 import type { Exercise, Workout, WorkoutExercise, WorkoutSet, WorkoutTemplate } from "../types";
-import { muscleGroupLabels, exerciseTypeLabels } from "../types";
+import { muscleGroupLabels, exerciseTypeLabels, getMuscleGroupClassName } from "../types";
 import { SetRow } from "../components/SetRow";
 import { ExerciseSelector } from "../components/ExerciseSelector";
 import { TemplateModal } from "../components/TemplateModal";
@@ -349,7 +349,7 @@ export function WorkoutPage() {
               <div key={workoutExercise.id} className="workout-exercise-card card">
                 <div className="workout-exercise-header">
                   <div>
-                    <span className="tag tag-accent">
+                    <span className={`tag ${getMuscleGroupClassName(exercise.muscleGroup)}`}>
                       {muscleGroupLabels[exercise.muscleGroup]}
                     </span>
                     <div className="exercise-name-row">

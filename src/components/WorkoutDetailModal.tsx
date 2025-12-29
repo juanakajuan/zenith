@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { X, Check, Trash2 } from "lucide-react";
 import type { Exercise, Workout } from "../types";
-import { muscleGroupLabels, exerciseTypeLabels } from "../types";
+import { muscleGroupLabels, exerciseTypeLabels, getMuscleGroupClassName } from "../types";
 import "./WorkoutDetailModal.css";
 
 interface WorkoutDetailModalProps {
@@ -78,7 +78,9 @@ export function WorkoutDetailModal({
             return (
               <div key={workoutExercise.id} className="detail-exercise">
                 <div className="detail-exercise-header">
-                  <span className="tag tag-accent">{muscleGroupLabels[exercise.muscleGroup]}</span>
+                  <span className={`tag ${getMuscleGroupClassName(exercise.muscleGroup)}`}>
+                    {muscleGroupLabels[exercise.muscleGroup]}
+                  </span>
                   <h3 className="detail-exercise-name">{exercise.name}</h3>
                   <span className="detail-exercise-type">
                     {exerciseTypeLabels[exercise.exerciseType]}

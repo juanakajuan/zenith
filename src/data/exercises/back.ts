@@ -338,4 +338,3 @@ export const backExercises: Exercise[] = [
     notes: "",
   },
 ];
-

@@ -184,4 +184,3 @@ export const quadsExercises: Exercise[] = [
     notes: "Last performed 8/3/2024",
   },
 ];
-
