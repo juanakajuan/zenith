@@ -1,7 +1,134 @@
-.workout-page {
+.workout-page,
+.workout-page-idle {
   padding-bottom: calc(90px + env(safe-area-inset-bottom));
 }
 
+/* Start Workout Section (Compact) */
+.start-workout-section {
+  margin-bottom: 1.5rem;
+}
+
+.start-workout-card-compact {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.start-workout-text {
+  flex: 1;
+}
+
+.start-workout-text h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.start-workout-text p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.start-workout-card-compact .btn {
+  flex-shrink: 0;
+}
+
+/* Templates Section */
+.templates-section {
+  flex: 1;
+}
+
+.templates-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.templates-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.templates-header-title h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.btn-sm {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+}
+
+.templates-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.templates-empty p {
+  font-size: 0.9rem;
+}
+
+.templates-empty .hint {
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+}
+
+.templates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.template-card {
+  padding: 1rem;
+}
+
+.template-card-header {
+  margin-bottom: 0.75rem;
+}
+
+.template-card-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.template-card-summary {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.template-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.template-card-actions .btn-primary {
+  flex: 1;
+}
+
+.template-card-actions .btn-icon {
+  color: var(--text-muted);
+}
+
+.template-card-actions .btn-icon:hover {
+  color: var(--text-primary);
+}
+
+/* Legacy start workout container - keeping for reference */
 .start-workout-container {
   flex: 1;
   display: flex;

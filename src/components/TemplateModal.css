@@ -1,0 +1,139 @@
+.template-modal {
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.template-modal .modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 0;
+}
+
+.template-exercises-section {
+  margin-top: 0.5rem;
+}
+
+.template-exercises-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.template-exercises-header .form-label {
+  margin-bottom: 0;
+}
+
+.template-summary {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.template-exercises-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.75rem;
+}
+
+.template-exercises-empty p {
+  font-size: 0.9rem;
+}
+
+.template-exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.template-exercise-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.template-exercise-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.template-exercise-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.template-exercise-meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.template-exercise-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.set-count-control {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg-input);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem;
+}
+
+.set-count-control .btn-icon {
+  padding: 0.35rem;
+}
+
+.set-count-control .btn-icon:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.set-count-value {
+  font-size: 0.8rem;
+  font-weight: 500;
+  min-width: 50px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.btn-remove {
+  color: var(--text-muted);
+}
+
+.btn-remove:hover {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.add-exercise-to-template-btn {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.template-error {
+  color: var(--accent);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}

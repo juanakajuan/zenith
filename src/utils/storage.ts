@@ -1,9 +1,10 @@
-import type { Exercise, Workout } from "../types";
+import type { Exercise, Workout, WorkoutTemplate } from "../types";
 
 export const STORAGE_KEYS = {
   EXERCISES: "zenith_exercises",
   WORKOUTS: "zenith_workouts",
   ACTIVE_WORKOUT: "zenith_active_workout",
+  TEMPLATES: "zenith_templates",
 } as const;
 
 export { DEFAULT_EXERCISES } from "../data/defaultExercises";
@@ -57,4 +58,17 @@ export function saveActiveWorkout(workout: Workout | null): void {
   } else {
     localStorage.removeItem(STORAGE_KEYS.ACTIVE_WORKOUT);
   }
+}
+
+export function getTemplates(): WorkoutTemplate[] {
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.TEMPLATES);
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveTemplates(templates: WorkoutTemplate[]): void {
+  localStorage.setItem(STORAGE_KEYS.TEMPLATES, JSON.stringify(templates));
 }

@@ -52,6 +52,18 @@ export interface Workout {
   completed: boolean;
 }
 
+export interface TemplateExercise {
+  id: string;
+  exerciseId: string;
+  setCount: number;
+}
+
+export interface WorkoutTemplate {
+  id: string;
+  name: string;
+  exercises: TemplateExercise[];
+}
+
 export const MUSCLE_GROUPS: MuscleGroup[] = [
   "chest",
   "back",
