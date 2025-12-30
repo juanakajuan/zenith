@@ -241,65 +241,69 @@ a {
   color: var(--text-secondary);
 }
 
-/* Muscle group colors */
+/* Muscle group colors - organized by training categories */
+/* Upper Push - Pink */
 .tag-muscle-chest {
-  background: rgba(230, 122, 111, 0.15);
-  color: #e67a6f;
-}
-
-.tag-muscle-shoulders {
-  background: rgba(219, 157, 94, 0.15);
-  color: #db9d5e;
+  background: rgba(236, 72, 153, 0.15);
+  color: #ec4899;
 }
 
 .tag-muscle-triceps {
-  background: rgba(201, 148, 112, 0.15);
-  color: #c99470;
+  background: rgba(236, 72, 153, 0.15);
+  color: #ec4899;
 }
 
+.tag-muscle-shoulders {
+  background: rgba(236, 72, 153, 0.15);
+  color: #ec4899;
+}
+
+/* Upper Pull - Blue */
 .tag-muscle-back {
-  background: rgba(107, 163, 204, 0.15);
-  color: #6ba3cc;
-}
-
-.tag-muscle-traps {
-  background: rgba(148, 184, 212, 0.15);
-  color: #94b8d4;
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
 }
 
 .tag-muscle-biceps {
-  background: rgba(143, 146, 204, 0.15);
-  color: #8f92cc;
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
 }
 
-.tag-muscle-forearms {
-  background: rgba(181, 143, 194, 0.15);
-  color: #b58fc2;
-}
-
+/* Legs - Green */
 .tag-muscle-quads {
-  background: rgba(107, 207, 176, 0.15);
-  color: #6bcfb0;
-}
-
-.tag-muscle-hamstrings {
-  background: rgba(125, 180, 146, 0.15);
-  color: #7db492;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
 }
 
 .tag-muscle-glutes {
-  background: rgba(146, 202, 125, 0.15);
-  color: #92ca7d;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
 }
 
+.tag-muscle-hamstrings {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+
+/* Accessory - Purple */
 .tag-muscle-calves {
-  background: rgba(165, 209, 138, 0.15);
-  color: #a5d18a;
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+}
+
+.tag-muscle-traps {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+}
+
+.tag-muscle-forearms {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
 }
 
 .tag-muscle-abs {
-  background: rgba(232, 181, 102, 0.15);
-  color: #e8b566;
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
 }
 
 .empty-state {

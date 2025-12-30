@@ -16,21 +16,21 @@ interface MuscleGroupSelectorProps {
  * Used to organize the selector UI into logical groupings.
  */
 const MUSCLE_GROUP_CATEGORIES: { label: string; groups: MuscleGroup[] }[] = [
-  { label: "Push", groups: ["chest", "shoulders", "triceps"] },
-  { label: "Pull", groups: ["back", "traps", "biceps", "forearms"] },
-  { label: "Legs", groups: ["quads", "hamstrings", "glutes", "calves"] },
-  { label: "Core", groups: ["abs"] },
+  { label: "Upper Push", groups: ["chest", "triceps", "shoulders"] },
+  { label: "Upper Pull", groups: ["back", "biceps"] },
+  { label: "Legs", groups: ["quads", "glutes", "hamstrings"] },
+  { label: "Accessory", groups: ["calves", "traps", "forearms", "abs"] },
 ];
 
 /**
  * Modal dialog for selecting a muscle group.
- * Organizes muscle groups into Push/Pull/Legs/Core categories.
+ * Organizes muscle groups into Upper Push/Upper Pull/Legs/Accessory categories.
  * Used when adding muscle group sections to workout templates.
  *
  * @param props - Component props
  *
  * @remarks
- * - Muscle groups organized by training categories (Push, Pull, Legs, Core)
+ * - Muscle groups organized by training categories (Upper Push, Upper Pull, Legs, Accessory)
  * - Each muscle group shown with its associated color indicator
  * - Supports Escape key to close
  * - Click overlay to close modal

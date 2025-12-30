@@ -156,21 +156,29 @@ export const exerciseTypeLabels: Record<ExerciseType, string> = {
 
 /**
  * Color codes for muscle groups used in UI tags and visual elements.
- * Maps muscle group keys to hex color values for consistent theming.
+ * Organized by training categories:
+ * - Upper Push (Pink): Chest, Triceps, Shoulders
+ * - Upper Pull (Blue): Back, Biceps
+ * - Legs (Green): Quads, Glutes, Hamstrings
+ * - Accessory (Purple): Calves, Traps, Forearms, Abs
  */
 export const muscleGroupColors: Record<MuscleGroup, string> = {
-  chest: "#e67a6f",
-  shoulders: "#db9d5e",
-  triceps: "#c99470",
-  back: "#6ba3cc",
-  traps: "#94b8d4",
-  biceps: "#8f92cc",
-  forearms: "#b58fc2",
-  quads: "#6bcfb0",
-  hamstrings: "#7db492",
-  glutes: "#92ca7d",
-  calves: "#a5d18a",
-  abs: "#e8b566",
+  // Upper Push - Pink
+  chest: "#ec4899",
+  triceps: "#ec4899",
+  shoulders: "#ec4899",
+  // Upper Pull - Blue
+  back: "#3b82f6",
+  biceps: "#3b82f6",
+  // Legs - Green
+  quads: "#22c55e",
+  glutes: "#22c55e",
+  hamstrings: "#22c55e",
+  // Accessory - Purple
+  calves: "#a855f7",
+  traps: "#a855f7",
+  forearms: "#a855f7",
+  abs: "#a855f7",
 };
 
 /**
