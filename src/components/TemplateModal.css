@@ -152,15 +152,25 @@
   border-bottom: none;
 }
 
-.template-muscle-group-drag {
-  padding-top: 0.25rem;
-  color: var(--text-muted);
-  cursor: grab;
+.template-muscle-group-reorder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
   flex-shrink: 0;
 }
 
-.template-muscle-group-drag:active {
-  cursor: grabbing;
+.template-muscle-group-reorder .btn-sm {
+  padding: 0.25rem;
+  color: var(--text-muted);
+}
+
+.template-muscle-group-reorder .btn-sm:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.template-muscle-group-reorder .btn-sm:not(:disabled):hover {
+  color: var(--text-primary);
 }
 
 .template-muscle-group-content {

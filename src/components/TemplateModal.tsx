@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Plus, Trash2, GripVertical, Minus } from "lucide-react";
+import { X, Plus, Trash2, Minus, ChevronUp, ChevronDown } from "lucide-react";
 
 import type {
   Exercise,
@@ -112,6 +112,34 @@ export function TemplateModal({ exercises, template, onSave, onClose }: Template
         return {
           ...day,
           muscleGroups: day.muscleGroups.filter((mg) => mg.id !== muscleGroupId),
+        };
+      })
+    );
+  };
+
+  const moveMuscleGroup = (muscleGroupId: string, direction: "up" | "down") => {
+    setDays(
+      days.map((day, i) => {
+        if (i !== activeDayIndex) return day;
+
+        const currentIndex = day.muscleGroups.findIndex((mg) => mg.id === muscleGroupId);
+        if (currentIndex === -1) return day;
+
+        const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+
+        // Can't move beyond bounds
+        if (newIndex < 0 || newIndex >= day.muscleGroups.length) return day;
+
+        // Swap the muscle groups
+        const newMuscleGroups = [...day.muscleGroups];
+        [newMuscleGroups[currentIndex], newMuscleGroups[newIndex]] = [
+          newMuscleGroups[newIndex],
+          newMuscleGroups[currentIndex],
+        ];
+
+        return {
+          ...day,
+          muscleGroups: newMuscleGroups,
         };
       })
     );
@@ -285,10 +313,25 @@ export function TemplateModal({ exercises, template, onSave, onClose }: Template
             </div>
           ) : (
             <div className="template-muscle-groups-list">
-              {activeDay.muscleGroups.map((muscleGroup) => (
+              {activeDay.muscleGroups.map((muscleGroup, mgIndex) => (
                 <div key={muscleGroup.id} className="template-muscle-group-row">
-                  <div className="template-muscle-group-drag">
-                    <GripVertical size={20} />
+                  <div className="template-muscle-group-reorder">
+                    <button
+                      className="btn btn-icon btn-ghost btn-sm"
+                      onClick={() => moveMuscleGroup(muscleGroup.id, "up")}
+                      disabled={mgIndex === 0}
+                      aria-label="Move up"
+                    >
+                      <ChevronUp size={16} />
+                    </button>
+                    <button
+                      className="btn btn-icon btn-ghost btn-sm"
+                      onClick={() => moveMuscleGroup(muscleGroup.id, "down")}
+                      disabled={mgIndex === activeDay.muscleGroups.length - 1}
+                      aria-label="Move down"
+                    >
+                      <ChevronDown size={16} />
+                    </button>
                   </div>
 
                   <div className="template-muscle-group-content">
