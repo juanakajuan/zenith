@@ -211,3 +211,7 @@ const allExercises = [...DEFAULT_EXERCISES, ...exercises];
 3. Export: `export function ComponentName({ ...props }) { ... }`
 4. Import CSS at bottom of .tsx file
 5. Use global utility classes where applicable
+
+### Rules
+
+- When asking questions and giving options, instead of using bullets (-), use letters so I can easily reply like: 1. a -- 2. b -- 3. c

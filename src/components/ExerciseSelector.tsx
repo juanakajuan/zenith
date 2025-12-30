@@ -8,9 +8,15 @@ interface ExerciseSelectorProps {
   exercises: Exercise[];
   onSelect: (exerciseId: string) => void;
   onClose: () => void;
+  hideFilter?: boolean;
 }
 
-export function ExerciseSelector({ exercises, onSelect, onClose }: ExerciseSelectorProps) {
+export function ExerciseSelector({
+  exercises,
+  onSelect,
+  onClose,
+  hideFilter = false,
+}: ExerciseSelectorProps) {
   const [search, setSearch] = useState("");
   const [filterMuscle, setFilterMuscle] = useState<MuscleGroup | "all">("all");
 
@@ -58,17 +64,19 @@ export function ExerciseSelector({ exercises, onSelect, onClose }: ExerciseSelec
               autoFocus
             />
           </div>
-          <select
-            value={filterMuscle}
-            onChange={(e) => setFilterMuscle(e.target.value as MuscleGroup | "all")}
-          >
-            <option value="all">All Muscles</option>
-            {MUSCLE_GROUPS.map((group) => (
-              <option key={group} value={group}>
-                {muscleGroupLabels[group]}
-              </option>
-            ))}
-          </select>
+          {!hideFilter && (
+            <select
+              value={filterMuscle}
+              onChange={(e) => setFilterMuscle(e.target.value as MuscleGroup | "all")}
+            >
+              <option value="all">All Muscles</option>
+              {MUSCLE_GROUPS.map((group) => (
+                <option key={group} value={group}>
+                  {muscleGroupLabels[group]}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
 
         <div className="selector-list">

@@ -54,14 +54,26 @@ export interface Workout {
 
 export interface TemplateExercise {
   id: string;
-  exerciseId: string;
+  exerciseId: string | null; // null when "Choose an exercise" placeholder
   setCount: number;
+}
+
+export interface TemplateMuscleGroup {
+  id: string;
+  muscleGroup: MuscleGroup;
+  exercises: TemplateExercise[];
+}
+
+export interface TemplateDay {
+  id: string;
+  name: string;
+  muscleGroups: TemplateMuscleGroup[];
 }
 
 export interface WorkoutTemplate {
   id: string;
   name: string;
-  exercises: TemplateExercise[];
+  days: TemplateDay[];
 }
 
 export const MUSCLE_GROUPS: MuscleGroup[] = [

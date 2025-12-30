@@ -1,0 +1,92 @@
+/* Muscle Group Selector Modal */
+.muscle-group-selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.muscle-group-selector-modal {
+  width: 100%;
+  max-width: 320px;
+  max-height: 70vh;
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.muscle-group-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.muscle-group-selector-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.muscle-group-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.muscle-group-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.muscle-group-option:hover {
+  background: var(--bg-card);
+}
+
+.muscle-group-indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.muscle-group-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.muscle-group-category {
+  padding-bottom: 0.5rem;
+}
+
+.muscle-group-category:last-child {
+  padding-bottom: 0;
+}
+
+.muscle-group-category-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.25rem 0.5rem;
+}

@@ -1,139 +1,352 @@
-.template-modal {
-  max-height: 85vh;
+/* Template Modal - Full Screen Mobile First */
+.template-modal-fullscreen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-}
-
-.template-modal .modal-body {
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: 0;
-}
-
-.template-exercises-section {
-  margin-top: 0.5rem;
-}
-
-.template-exercises-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
-}
-
-.template-exercises-header .form-label {
-  margin-bottom: 0;
-}
-
-.template-summary {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.template-exercises-empty {
-  padding: 2rem 1rem;
-  text-align: center;
-  color: var(--text-muted);
-  background: var(--bg-card);
-  border: 1px dashed var(--border);
-  border-radius: var(--radius-md);
-  margin-bottom: 0.75rem;
-}
-
-.template-exercises-empty p {
-  font-size: 0.9rem;
-}
-
-.template-exercises-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.template-exercise-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-}
-
-.template-exercise-info {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.template-exercise-name {
-  font-size: 0.95rem;
-  font-weight: 500;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.template-exercise-meta {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-
-.template-exercise-controls {
+/* Header */
+.template-modal-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: flex-end;
+  padding: 1rem;
   flex-shrink: 0;
 }
 
-.set-count-control {
+/* Title Section */
+.template-title-section {
+  padding: 0 1rem 1rem;
+  flex-shrink: 0;
+}
+
+.template-name-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 0;
+}
+
+.template-name-input::placeholder {
+  color: var(--text-primary);
+}
+
+.template-name-input:focus {
+  outline: none;
+}
+
+/* Day Tabs */
+.template-day-tabs {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.template-day-tabs-inner {
+  display: flex;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 0.25rem;
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+
+.template-day-tab {
+  flex: 1;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.template-day-tab.active {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.template-day-tab:not(.active):hover {
+  color: var(--text-primary);
+}
+
+.template-day-tab-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem;
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+
+.template-day-tab-delete:hover {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.template-add-day-tab {
+  flex: 0;
+  min-width: auto;
+  padding: 0.75rem;
+  color: var(--text-muted);
+}
+
+.template-add-day-tab:hover {
+  color: var(--text-primary);
+}
+
+/* Day Content */
+.template-day-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 1rem;
+}
+
+.template-empty-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.template-empty-day .hint {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Muscle Groups List */
+.template-muscle-groups-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.template-muscle-group-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.template-muscle-group-row:last-child {
+  border-bottom: none;
+}
+
+.template-muscle-group-drag {
+  padding-top: 0.25rem;
+  color: var(--text-muted);
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.template-muscle-group-drag:active {
+  cursor: grabbing;
+}
+
+.template-muscle-group-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.template-muscle-group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.muscle-group-indicator-bar {
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.template-muscle-group-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.template-exercise-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.template-exercise-row.has-selected-exercise {
+  justify-content: space-between;
+}
+
+.template-exercise-btn {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+}
+
+.template-exercise-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text-secondary);
+}
+
+.template-exercise-btn.has-exercise {
+  color: var(--text-primary);
+  background: transparent;
+  border-color: transparent;
+  padding: 0;
+}
+
+.template-exercise-btn.has-exercise:hover {
+  color: var(--text-secondary);
+}
+
+.template-set-count-control {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  background: var(--bg-input);
+  background: var(--bg-card);
   border-radius: var(--radius-sm);
-  padding: 0.25rem;
+  padding: 0.15rem;
+  flex-shrink: 0;
 }
 
-.set-count-control .btn-icon {
-  padding: 0.35rem;
+.template-set-count-control .btn-sm {
+  padding: 0.3rem;
 }
 
-.set-count-control .btn-icon:disabled {
+.template-set-count-control .btn-sm:disabled {
   opacity: 0.3;
   cursor: not-allowed;
 }
 
-.set-count-value {
+.template-set-count-value {
   font-size: 0.8rem;
   font-weight: 500;
-  min-width: 50px;
+  min-width: 24px;
   text-align: center;
   color: var(--text-secondary);
 }
 
-.btn-remove {
+.template-muscle-group-delete {
   color: var(--text-muted);
+  flex-shrink: 0;
+  padding: 0.25rem;
 }
 
-.btn-remove:hover {
+.template-muscle-group-delete:hover {
   color: var(--accent);
-  background: var(--accent-dim);
 }
 
-.add-exercise-to-template-btn {
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
+/* Error */
 .template-error {
   color: var(--accent);
   font-size: 0.85rem;
   text-align: center;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.template-modal-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  flex-shrink: 0;
+}
+
+.template-fab {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.template-fab:hover {
+  background: var(--bg-input);
+}
+
+.template-save-btn {
+  flex: 1;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: white;
+  border-radius: var(--radius-md);
+}
+
+.btn-accent:hover {
+  background: var(--accent-hover);
+}
+
+/* Exercise Selector override when used in Template Modal */
+.template-modal-fullscreen ~ .modal-overlay {
+  z-index: 2000;
+}
+
+/* Desktop Adjustments - Optional horizontal layout */
+@media (min-width: 768px) {
+  .template-modal-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .template-title-section {
+    padding: 0 1.5rem 1rem;
+  }
+
+  .template-day-tabs {
+    padding: 0 1.5rem;
+  }
+
+  .template-day-content {
+    padding: 0 1.5rem;
+  }
+
+  .template-modal-footer {
+    padding: 1rem 1.5rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .template-name-input {
+    font-size: 1.5rem;
+  }
 }
