@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default quadriceps exercises provided by the application.
+ * Includes squats, lunges, leg presses, and isolation movements.
+ */
 export const quadsExercises: Exercise[] = [
   {
     id: "default-barbell-split-squat",

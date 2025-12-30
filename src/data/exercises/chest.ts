@@ -1,5 +1,16 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default chest exercises provided by the application.
+ * Includes various chest exercises using different equipment types:
+ * barbell, dumbbell, machine, cable, and bodyweight.
+ *
+ * @remarks
+ * - All IDs prefixed with "default-" to mark as read-only
+ * - Covers multiple variations (flat, incline, decline)
+ * - Different grip widths for compound movements
+ * - Mix of compound and isolation exercises
+ */
 export const chestExercises: Exercise[] = [
   {
     id: "default-bench-press-decline-barbell",

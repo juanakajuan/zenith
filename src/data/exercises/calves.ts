@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default calf exercises provided by the application.
+ * Includes standing and seated calf raise variations.
+ */
 export const calvesExercises: Exercise[] = [
   {
     id: "default-belt-squat-calves",

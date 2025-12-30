@@ -1,3 +1,7 @@
+/**
+ * Represents a muscle group that can be targeted by exercises.
+ * Used for categorizing and filtering exercises in the workout tracker.
+ */
 export type MuscleGroup =
   | "chest"
   | "back"
@@ -12,6 +16,10 @@ export type MuscleGroup =
   | "abs"
   | "traps";
 
+/**
+ * Represents the type of equipment or method used for an exercise.
+ * Used for filtering and organizing exercises by equipment availability.
+ */
 export type ExerciseType =
   | "barbell"
   | "dumbbell"
@@ -33,7 +41,7 @@ export interface Exercise {
 
 export interface WorkoutSet {
   id: string;
-  weight: number; // lbs
+  weight: number;
   reps: number;
   completed: boolean;
 }
@@ -47,14 +55,14 @@ export interface WorkoutExercise {
 export interface Workout {
   id: string;
   name: string;
-  date: string; // ISO date
+  date: string;
   exercises: WorkoutExercise[];
   completed: boolean;
 }
 
 export interface TemplateExercise {
   id: string;
-  exerciseId: string | null; // null when "Choose an exercise" placeholder
+  exerciseId: string | null;
   setCount: number;
 }
 
@@ -76,6 +84,10 @@ export interface WorkoutTemplate {
   days: TemplateDay[];
 }
 
+/**
+ * Array of all available muscle groups in the application.
+ * Used for generating UI elements and validation.
+ */
 export const MUSCLE_GROUPS: MuscleGroup[] = [
   "chest",
   "back",
@@ -91,6 +103,10 @@ export const MUSCLE_GROUPS: MuscleGroup[] = [
   "traps",
 ];
 
+/**
+ * Array of all available exercise types in the application.
+ * Used for generating UI elements and validation.
+ */
 export const EXERCISE_TYPES: ExerciseType[] = [
   "barbell",
   "dumbbell",
@@ -103,6 +119,10 @@ export const EXERCISE_TYPES: ExerciseType[] = [
   "loaded-bodyweight",
 ];
 
+/**
+ * Human-readable labels for muscle groups.
+ * Maps muscle group keys to display names for UI rendering.
+ */
 export const muscleGroupLabels: Record<MuscleGroup, string> = {
   chest: "Chest",
   back: "Back",
@@ -118,6 +138,10 @@ export const muscleGroupLabels: Record<MuscleGroup, string> = {
   traps: "Traps",
 };
 
+/**
+ * Human-readable labels for exercise types.
+ * Maps exercise type keys to display names for UI rendering.
+ */
 export const exerciseTypeLabels: Record<ExerciseType, string> = {
   barbell: "Barbell",
   dumbbell: "Dumbbell",
@@ -130,6 +154,10 @@ export const exerciseTypeLabels: Record<ExerciseType, string> = {
   "loaded-bodyweight": "Loaded Bodyweight",
 };
 
+/**
+ * Color codes for muscle groups used in UI tags and visual elements.
+ * Maps muscle group keys to hex color values for consistent theming.
+ */
 export const muscleGroupColors: Record<MuscleGroup, string> = {
   chest: "#e67a6f",
   shoulders: "#db9d5e",
@@ -145,6 +173,15 @@ export const muscleGroupColors: Record<MuscleGroup, string> = {
   abs: "#e8b566",
 };
 
+/**
+ * Generates a CSS class name for a muscle group tag.
+ *
+ * @param muscleGroup - The muscle group to generate a class name for
+ * @returns CSS class name in the format "tag-muscle-{muscleGroup}"
+ *
+ * @example
+ * getMuscleGroupClassName("chest") // Returns "tag-muscle-chest"
+ */
 export function getMuscleGroupClassName(muscleGroup: MuscleGroup): string {
   return `tag-muscle-${muscleGroup}`;
 }

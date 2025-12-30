@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default hamstring exercises provided by the application.
+ * Includes curls, deadlift variations, and posterior chain movements.
+ */
 export const hamstringsExercises: Exercise[] = [
   {
     id: "default-back-raise-45-degree",

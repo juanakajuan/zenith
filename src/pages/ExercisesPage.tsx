@@ -1,13 +1,40 @@
 import { useState } from "react";
 import { Plus, Dumbbell, Search } from "lucide-react";
+
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES, isDefaultExercise } from "../utils/storage";
+
 import type { Exercise, MuscleGroup } from "../types";
 import { MUSCLE_GROUPS, EXERCISE_TYPES, muscleGroupLabels, exerciseTypeLabels } from "../types";
+
 import { ExerciseCard } from "../components/ExerciseCard";
 import { ExerciseModal } from "../components/ExerciseModal";
+
 import "./ExercisesPage.css";
 
+/**
+ * Exercises page component for managing the user's exercise library.
+ * Displays all exercises (default + user-created) with search and filter capabilities.
+ * Allows creating, editing, and deleting user exercises.
+ *
+ * @remarks
+ * Features:
+ * - Combines default exercises (read-only) with user-created exercises
+ * - Search exercises by name (case-insensitive)
+ * - Filter exercises by muscle group
+ * - Add new exercises via modal
+ * - Edit user-created exercises (default exercises cannot be edited)
+ * - Delete user-created exercises (default exercises cannot be deleted)
+ * - Exercises grouped by muscle group in the display
+ * - Shows empty state when no exercises match filters
+ *
+ * State:
+ * - exercises: User-created exercises from localStorage
+ * - isModalOpen: Controls visibility of create/edit modal
+ * - editingExercise: The exercise being edited, or null for new exercise
+ * - filterMuscle: Current muscle group filter ("all" or specific muscle group)
+ * - searchQuery: Current search query string
+ */
 export function ExercisesPage() {
   const [exercises, setExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [isModalOpen, setIsModalOpen] = useState(false);

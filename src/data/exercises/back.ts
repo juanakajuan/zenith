@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default back exercises provided by the application.
+ * Includes various back exercises for width and thickness development.
+ */
 export const backExercises: Exercise[] = [
   {
     id: "default-assisted-pullup-normal-grip",

@@ -23,6 +23,47 @@ interface TemplateModalProps {
   onClose: () => void;
 }
 
+/**
+ * Full-screen modal for creating or editing workout templates.
+ * Allows creating multi-day workout programs with exercises organized by muscle groups.
+ * Supports adding/removing days, muscle groups, exercises, and configuring set counts.
+ *
+ * @param props - Component props
+ *
+ * @remarks
+ * - Prevents body scroll when open
+ * - Full-screen mobile-first UI
+ * - Multi-day support with tab navigation
+ * - Muscle groups can be reordered within a day
+ * - Set counts adjustable between 1-20 per exercise
+ * - Validates that template has a name and at least one exercise
+ * - Filters out muscle groups without selected exercises on save
+ * - Shows nested MuscleGroupSelector and ExerciseSelector modals
+ *
+ * Features:
+ * - Add/remove days (minimum 1 day required)
+ * - Add muscle groups organized by Push/Pull/Legs/Core
+ * - Select specific exercises for each muscle group
+ * - Adjust set counts per exercise
+ * - Reorder muscle groups within a day
+ * - Delete muscle groups
+ *
+ * @example
+ * // Create new template
+ * <TemplateModal
+ *   exercises={allExercises}
+ *   onSave={(template) => handleSaveTemplate(template)}
+ *   onClose={() => setShowModal(false)}
+ * />
+ *
+ * // Edit existing template
+ * <TemplateModal
+ *   exercises={allExercises}
+ *   template={existingTemplate}
+ *   onSave={(template) => handleUpdateTemplate(template)}
+ *   onClose={() => setShowModal(false)}
+ * />
+ */
 export function TemplateModal({ exercises, template, onSave, onClose }: TemplateModalProps) {
   const [name, setName] = useState(template?.name ?? "");
   const [days, setDays] = useState<TemplateDay[]>(

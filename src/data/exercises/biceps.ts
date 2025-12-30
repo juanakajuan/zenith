@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default biceps exercises provided by the application.
+ * Includes various curling movements and variations.
+ */
 export const bicepsExercises: Exercise[] = [
   {
     id: "default-barbell-curl-narrow-grip",

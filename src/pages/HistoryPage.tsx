@@ -1,11 +1,40 @@
 import { useState } from "react";
 import { History } from "lucide-react";
+
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, DEFAULT_EXERCISES } from "../utils/storage";
+
 import type { Exercise, Workout } from "../types";
+
 import { WorkoutDetailModal } from "../components/WorkoutDetailModal";
+
 import "./HistoryPage.css";
 
+/**
+ * History page component for viewing completed workout history.
+ * Displays all completed workouts organized by month with statistics.
+ * Allows viewing detailed workout information and deleting workouts.
+ *
+ * @remarks
+ * Features:
+ * - Lists all completed workouts from localStorage
+ * - Groups workouts by month and year
+ * - Shows workout stats: sets completed, total volume
+ * - Displays workout date with smart formatting (Today, Yesterday, or date)
+ * - Lists first few exercises in each workout card
+ * - Click workout card to view full details in modal
+ * - Delete workouts from detail modal
+ * - Shows empty state when no workouts exist
+ *
+ * State:
+ * - workouts: Array of completed workouts from localStorage
+ * - userExercises: User-created exercises (merged with defaults)
+ * - selectedWorkout: Currently selected workout for detail view
+ *
+ * Data grouping:
+ * - Workouts grouped by month/year (e.g., "January 2024")
+ * - Within each month, workouts shown in order
+ */
 export function HistoryPage() {
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
   const [userExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);

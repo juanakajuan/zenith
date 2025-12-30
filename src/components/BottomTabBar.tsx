@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Dumbbell, CirclePlay, History, Settings } from "lucide-react";
+
 import "./BottomTabBar.css";
 
 export function BottomTabBar() {

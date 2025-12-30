@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default forearm exercises provided by the application.
+ * Includes wrist curls and grip strengthening movements.
+ */
 export const forearmsExercises: Exercise[] = [
   {
     id: "default-barbell-standing-wrist-curl",

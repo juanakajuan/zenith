@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { X, Search, Plus } from "lucide-react";
+
 import type { Exercise, MuscleGroup } from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, MUSCLE_GROUPS } from "../types";
+
 import "./ExerciseSelector.css";
 
 interface ExerciseSelectorProps {
@@ -11,6 +13,37 @@ interface ExerciseSelectorProps {
   hideFilter?: boolean;
 }
 
+/**
+ * Modal dialog for selecting an exercise from the user's exercise library.
+ * Provides search functionality and optional muscle group filtering.
+ * Exercises are grouped by muscle group for easy browsing.
+ *
+ * @param props - Component props
+ *
+ * @remarks
+ * - Prevents body scroll when open
+ * - Search is case-insensitive and matches exercise names
+ * - Exercises grouped by muscle group in the results
+ * - Shows empty state when no exercises exist or match search
+ * - Search input auto-focused on mount
+ * - Click overlay to close modal
+ *
+ * @example
+ * // With muscle group filter
+ * <ExerciseSelector
+ *   exercises={allExercises}
+ *   onSelect={(id) => addExerciseToWorkout(id)}
+ *   onClose={() => setShowSelector(false)}
+ * />
+ *
+ * // Without muscle group filter (for template editing)
+ * <ExerciseSelector
+ *   exercises={chestExercises}
+ *   onSelect={(id) => selectForTemplate(id)}
+ *   onClose={() => setShowSelector(false)}
+ *   hideFilter
+ * />
+ */
 export function ExerciseSelector({
   exercises,
   onSelect,

@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default trapezius exercises provided by the application.
+ * Includes shrugs and trap-focused pulling movements.
+ */
 export const trapsExercises: Exercise[] = [
   {
     id: "default-barbell-bent-over-shrug",

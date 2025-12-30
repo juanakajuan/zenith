@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default shoulder exercises provided by the application.
+ * Covers front, side, and rear deltoid movements.
+ */
 export const shouldersExercises: Exercise[] = [
   {
     id: "default-arnold-press",

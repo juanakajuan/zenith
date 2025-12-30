@@ -26,6 +26,50 @@ import { DaySelector } from "../components/DaySelector";
 
 import "./WorkoutPage.css";
 
+/**
+ * Workout page component - the main hub for tracking active workouts and managing templates.
+ * Handles workout lifecycle: start, track exercises/sets, finish, or cancel.
+ * Also manages workout templates for quick workout setup.
+ *
+ * @remarks
+ * Features:
+ *
+ * Active Workout:
+ * - Start new empty workout or from a template
+ * - Add exercises during workout
+ * - Track sets with weight, reps, and completion status
+ * - Remove exercises from active workout
+ * - Edit workout name inline
+ * - Finish workout (saves to history)
+ * - Cancel workout (discards without saving)
+ *
+ * Templates:
+ * - Create workout templates with multiple days
+ * - Edit existing templates
+ * - Delete templates
+ * - Start workouts from templates
+ * - Multi-day template support (shows day selector)
+ * - Single-day templates start immediately
+ *
+ * State:
+ * - exercises: User-created exercises (merged with defaults)
+ * - workouts: Completed workout history
+ * - activeWorkout: Currently in-progress workout (if any)
+ * - templates: Saved workout templates
+ * - showExerciseSelector: Controls exercise selection modal
+ * - showTemplateModal: Controls template create/edit modal
+ * - editingTemplate: Template being edited (or null for new)
+ * - showDaySelector: Controls day selection for multi-day templates
+ * - selectedTemplate: Template selected for starting workout
+ * - workoutName: Current workout name (for inline editing)
+ * - isEditingName: Whether name is being edited
+ *
+ * Workflow:
+ * 1. No active workout: Show templates and "Quick Start" button
+ * 2. Active workout: Show exercises, sets, and tracking UI
+ * 3. Finish: Moves workout to history, clears active state
+ * 4. Cancel: Confirms then clears active workout without saving
+ */
 export function WorkoutPage() {
   const [exercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);

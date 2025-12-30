@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default triceps exercises provided by the application.
+ * Includes extensions, presses, and dip variations.
+ */
 export const tricepsExercises: Exercise[] = [
   {
     id: "default-assisted-dip",

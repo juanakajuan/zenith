@@ -13,6 +13,28 @@ interface DaySelectorProps {
   onClose: () => void;
 }
 
+/**
+ * Modal dialog for selecting a day from a workout template.
+ * Displays all days in a template with exercise previews and statistics.
+ * Used when starting a workout from a template.
+ *
+ * @param props - Component props
+ *
+ * @remarks
+ * - Prevents body scroll when open
+ * - Shows stats for each day (exercise count, set count)
+ * - Displays unique muscle groups targeted in each day
+ * - Shows preview of exercises (up to first 3 muscle groups)
+ * - Click overlay to close modal
+ *
+ * @example
+ * <DaySelector
+ *   template={pplTemplate}
+ *   exercises={allExercises}
+ *   onSelect={(day) => startWorkoutFromTemplateDay(day)}
+ *   onClose={() => setShowDaySelector(false)}
+ * />
+ */
 export function DaySelector({ template, exercises, onSelect, onClose }: DaySelectorProps) {
   useEffect(() => {
     document.body.style.overflow = "hidden";

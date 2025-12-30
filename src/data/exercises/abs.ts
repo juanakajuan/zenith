@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default abdominal exercises provided by the application.
+ * Includes core strengthening and ab isolation movements.
+ */
 export const absExercises: Exercise[] = [
   {
     id: "default-ab-wheel",

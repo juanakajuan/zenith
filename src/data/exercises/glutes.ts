@@ -1,5 +1,9 @@
 import type { Exercise } from "../../types";
 
+/**
+ * Default glute exercises provided by the application.
+ * Includes hip thrusts, glute bridges, and targeted glute movements.
+ */
 export const glutesExercises: Exercise[] = [
   {
     id: "default-barbell-hip-thrust",

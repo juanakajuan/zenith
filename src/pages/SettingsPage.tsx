@@ -1,6 +1,18 @@
 import { Settings } from "lucide-react";
+
 import "./SettingsPage.css";
 
+/**
+ * Settings page component (placeholder).
+ * Currently displays a "coming soon" message for future configuration options.
+ *
+ * @remarks
+ * This is a placeholder page for future features such as:
+ * - User preferences (units, theme, etc.)
+ * - Data export/import
+ * - Account settings
+ * - App configuration
+ */
 export function SettingsPage() {
   return (
     <div className="page">
