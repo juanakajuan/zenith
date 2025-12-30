@@ -56,6 +56,8 @@ export interface Workout {
   id: string;
   name: string;
   date: string;
+  startTime: string;
+  duration?: number;
   exercises: WorkoutExercise[];
   completed: boolean;
 }

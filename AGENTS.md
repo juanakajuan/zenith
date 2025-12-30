@@ -213,8 +213,17 @@ const allExercises = [...DEFAULT_EXERCISES, ...exercises];
 5. Use global utility classes where applicable
 
 ### Documentation
+
 - Make sure to add TSDoc documentation that is standard for React projects.
 
 ### Rules
 
-- When asking questions and giving options, instead of using bullets (-), use letters so I can easily reply like: 1. a -- 2. b -- 3. c
+- When asking questions and giving multiple options, instead of using bullets (-) to list those options, use multiple choice letters so I can easily reply like: 1. a -- 2. b -- 3. c
+  - For example:
+
+  ```
+      1. The question you are asking
+          a) option 1
+          b) option 2
+          c) option 3
+  ```

@@ -91,7 +91,7 @@ export function ExercisesPage() {
         <h1 className="page-title">Exercises</h1>
         <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
           <Plus size={20} strokeWidth={2.5} />
-          New
+          NEW
         </button>
       </header>
 

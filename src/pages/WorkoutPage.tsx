@@ -9,12 +9,7 @@ import type {
   WorkoutTemplate,
   TemplateDay,
 } from "../types";
-import {
-  muscleGroupLabels,
-  exerciseTypeLabels,
-  getMuscleGroupClassName,
-  muscleGroupColors,
-} from "../types";
+import { muscleGroupLabels, exerciseTypeLabels, getMuscleGroupClassName } from "../types";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES } from "../utils/storage";
@@ -23,53 +18,10 @@ import { SetRow } from "../components/SetRow";
 import { ExerciseSelector } from "../components/ExerciseSelector";
 import { TemplateModal } from "../components/TemplateModal";
 import { DaySelector } from "../components/DaySelector";
+import { WorkoutTimer } from "../components/WorkoutTimer";
 
 import "./WorkoutPage.css";
 
-/**
- * Workout page component - the main hub for tracking active workouts and managing templates.
- * Handles workout lifecycle: start, track exercises/sets, finish, or cancel.
- * Also manages workout templates for quick workout setup.
- *
- * @remarks
- * Features:
- *
- * Active Workout:
- * - Start new empty workout or from a template
- * - Add exercises during workout
- * - Track sets with weight, reps, and completion status
- * - Remove exercises from active workout
- * - Edit workout name inline
- * - Finish workout (saves to history)
- * - Cancel workout (discards without saving)
- *
- * Templates:
- * - Create workout templates with multiple days
- * - Edit existing templates
- * - Delete templates
- * - Start workouts from templates
- * - Multi-day template support (shows day selector)
- * - Single-day templates start immediately
- *
- * State:
- * - exercises: User-created exercises (merged with defaults)
- * - workouts: Completed workout history
- * - activeWorkout: Currently in-progress workout (if any)
- * - templates: Saved workout templates
- * - showExerciseSelector: Controls exercise selection modal
- * - showTemplateModal: Controls template create/edit modal
- * - editingTemplate: Template being edited (or null for new)
- * - showDaySelector: Controls day selection for multi-day templates
- * - selectedTemplate: Template selected for starting workout
- * - workoutName: Current workout name (for inline editing)
- * - isEditingName: Whether name is being edited
- *
- * Workflow:
- * 1. No active workout: Show templates and "Quick Start" button
- * 2. Active workout: Show exercises, sets, and tracking UI
- * 3. Finish: Moves workout to history, clears active state
- * 4. Cancel: Confirms then clears active workout without saving
- */
 export function WorkoutPage() {
   const [exercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
@@ -98,6 +50,7 @@ export function WorkoutPage() {
       id: generateId(),
       name: defaultName,
       date: today.toISOString(),
+      startTime: today.toISOString(),
       exercises: [],
       completed: false,
     };
@@ -145,6 +98,7 @@ export function WorkoutPage() {
       id: generateId(),
       name: workoutDisplayName,
       date: today.toISOString(),
+      startTime: today.toISOString(),
       exercises: workoutExercises,
       completed: false,
     };
@@ -196,16 +150,6 @@ export function WorkoutPage() {
     });
 
     return { exerciseCount, setCount, dayCount: template.days.length };
-  };
-
-  const getTemplateMuscleGroups = (template: WorkoutTemplate) => {
-    const groups = new Set<string>();
-    template.days.forEach((day) => {
-      day.muscleGroups.forEach((mg) => {
-        groups.add(mg.muscleGroup);
-      });
-    });
-    return Array.from(groups);
   };
 
   const addExerciseToWorkout = (exerciseId: string) => {
@@ -286,9 +230,14 @@ export function WorkoutPage() {
   const finishWorkout = () => {
     if (!activeWorkout) return;
 
+    const now = new Date();
+    const startTime = new Date(activeWorkout.startTime);
+    const durationInSeconds = Math.floor((now.getTime() - startTime.getTime()) / 1000);
+
     const completedWorkout: Workout = {
       ...activeWorkout,
       name: workoutName || activeWorkout.name,
+      duration: durationInSeconds,
       completed: true,
     };
 
@@ -330,7 +279,7 @@ export function WorkoutPage() {
             </div>
             <button className="btn btn-primary" onClick={startEmptyWorkout}>
               <Play size={18} />
-              Start
+              START
             </button>
           </div>
         </div>
@@ -349,7 +298,7 @@ export function WorkoutPage() {
               }}
             >
               <Plus size={16} />
-              New
+              NEW
             </button>
           </div>
 
@@ -362,7 +311,6 @@ export function WorkoutPage() {
             <div className="templates-list">
               {templates.map((template) => {
                 const stats = getTemplateStats(template);
-                const muscleGroups = getTemplateMuscleGroups(template);
 
                 return (
                   <div key={template.id} className="template-card card">
@@ -374,28 +322,13 @@ export function WorkoutPage() {
                         {stats.setCount} set{stats.setCount !== 1 ? "s" : ""}
                       </span>
                     </div>
-                    <div className="template-card-muscles">
-                      {muscleGroups.slice(0, 4).map((group) => (
-                        <span
-                          key={group}
-                          className="template-muscle-tag"
-                          style={{
-                            backgroundColor:
-                              muscleGroupColors[group as keyof typeof muscleGroupColors],
-                          }}
-                        />
-                      ))}
-                      {muscleGroups.length > 4 && (
-                        <span className="template-muscle-more">+{muscleGroups.length - 4}</span>
-                      )}
-                    </div>
                     <div className="template-card-actions">
                       <button
                         className="btn btn-primary btn-sm"
                         onClick={() => handleTemplateClick(template)}
                       >
                         <Play size={16} />
-                        Start
+                        START
                       </button>
                       <button
                         className="btn btn-ghost btn-icon"
@@ -475,6 +408,7 @@ export function WorkoutPage() {
             day: "numeric",
           })}
         </p>
+        <WorkoutTimer startTime={activeWorkout.startTime} />
       </header>
 
       <div className="workout-exercises">

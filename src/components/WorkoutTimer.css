@@ -1,0 +1,26 @@
+.workout-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.workout-timer-label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.workout-timer-display {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--accent);
+  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 0.05em;
+}

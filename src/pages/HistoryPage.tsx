@@ -10,31 +10,6 @@ import { WorkoutDetailModal } from "../components/WorkoutDetailModal";
 
 import "./HistoryPage.css";
 
-/**
- * History page component for viewing completed workout history.
- * Displays all completed workouts organized by month with statistics.
- * Allows viewing detailed workout information and deleting workouts.
- *
- * @remarks
- * Features:
- * - Lists all completed workouts from localStorage
- * - Groups workouts by month and year
- * - Shows workout stats: sets completed, total volume
- * - Displays workout date with smart formatting (Today, Yesterday, or date)
- * - Lists first few exercises in each workout card
- * - Click workout card to view full details in modal
- * - Delete workouts from detail modal
- * - Shows empty state when no workouts exist
- *
- * State:
- * - workouts: Array of completed workouts from localStorage
- * - userExercises: User-created exercises (merged with defaults)
- * - selectedWorkout: Currently selected workout for detail view
- *
- * Data grouping:
- * - Workouts grouped by month/year (e.g., "January 2024")
- * - Within each month, workouts shown in order
- */
 export function HistoryPage() {
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
   const [userExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
@@ -52,10 +27,10 @@ export function HistoryPage() {
     yesterday.setDate(yesterday.getDate() - 1);
 
     if (date.toDateString() === today.toDateString()) {
-      return "Today";
+      return "TODAY";
     }
     if (date.toDateString() === yesterday.toDateString()) {
-      return "Yesterday";
+      return "YESTERDAY";
     }
 
     return date.toLocaleDateString("en-US", {
@@ -76,6 +51,18 @@ export function HistoryPage() {
       0
     );
     return { totalSets, completedSets, totalVolume };
+  };
+
+  const formatDuration = (seconds: number | undefined): string => {
+    if (!seconds) return "";
+
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    }
+    return `${minutes} min`;
   };
 
   const handleDeleteWorkout = (id: string) => {
@@ -105,7 +92,7 @@ export function HistoryPage() {
     <div className="page">
       <header className="page-header">
         <h1 className="page-title">History</h1>
-        {workouts.length > 0 && <span className="workout-count">{workouts.length} workouts</span>}
+        {workouts.length > 0 && <span className="workout-count">{workouts.length} Workouts</span>}
       </header>
 
       {workouts.length === 0 ? (
@@ -141,6 +128,12 @@ export function HistoryPage() {
                         <span>
                           {stats.completedSets}/{stats.totalSets} sets
                         </span>
+                        {workout.duration && (
+                          <>
+                            <span className="dot">•</span>
+                            <span>{formatDuration(workout.duration)}</span>
+                          </>
+                        )}
                       </div>
                       <div className="history-card-exercises">
                         {workout.exercises.slice(0, 3).map((we) => {
