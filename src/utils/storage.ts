@@ -185,3 +185,77 @@ export function getTemplates(): WorkoutTemplate[] {
 export function saveTemplates(templates: WorkoutTemplate[]): void {
   localStorage.setItem(STORAGE_KEYS.TEMPLATES, JSON.stringify(templates));
 }
+
+/**
+ * Gets the last performed date for a specific exercise.
+ * Searches through completed workouts to find the most recent workout containing the exercise.
+ *
+ * @param exerciseId - The ID of the exercise to find
+ * @returns ISO date string of the last workout containing this exercise, or null if never performed
+ *
+ * @example
+ * const lastDate = getLastPerformedDate("exercise-123");
+ * if (lastDate) {
+ *   console.log(`Last performed: ${formatRelativeDate(lastDate)}`);
+ * }
+ */
+export function getLastPerformedDate(exerciseId: string): string | null {
+  const workouts = getWorkouts();
+
+  // Filter to completed workouts that contain this exercise
+  const workoutsWithExercise = workouts.filter(
+    (workout) => workout.completed && workout.exercises.some((ex) => ex.exerciseId === exerciseId)
+  );
+
+  if (workoutsWithExercise.length === 0) {
+    return null;
+  }
+
+  // Sort by date descending and get the most recent
+  const sortedWorkouts = workoutsWithExercise.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  return sortedWorkouts[0].date;
+}
+
+/**
+ * Formats an ISO date string as a relative time string.
+ * Returns human-readable strings like "Today", "Yesterday", "2 days ago", etc.
+ *
+ * @param dateString - ISO date string to format
+ * @returns Formatted relative date string
+ *
+ * @example
+ * formatRelativeDate("2024-12-29") // Returns "2 days ago" (if today is 2024-12-31)
+ * formatRelativeDate("2024-12-31") // Returns "Today"
+ * formatRelativeDate("2024-12-30") // Returns "Yesterday"
+ */
+export function formatRelativeDate(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+
+  // Reset time components for accurate day comparison
+  const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const nowOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const diffMs = nowOnly.getTime() - dateOnly.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) {
+    return "today";
+  } else if (diffDays === 1) {
+    return "yesterday";
+  } else if (diffDays < 7) {
+    return `${diffDays} days ago`;
+  } else if (diffDays < 30) {
+    const weeks = Math.floor(diffDays / 7);
+    return weeks === 1 ? "1 week ago" : `${weeks} weeks ago`;
+  } else if (diffDays < 365) {
+    const months = Math.floor(diffDays / 30);
+    return months === 1 ? "1 month ago" : `${months} months ago`;
+  } else {
+    const years = Math.floor(diffDays / 365);
+    return years === 1 ? "1 year ago" : `${years} years ago`;
+  }
+}

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { X, Search, Plus } from "lucide-react";
+import { X, Search, Plus, Clock } from "lucide-react";
 
 import type { Exercise, MuscleGroup } from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, MUSCLE_GROUPS, EXERCISE_TYPES } from "../types";
+import { getLastPerformedDate, formatRelativeDate } from "../utils/storage";
 
 import { ExerciseModal } from "./ExerciseModal";
 
@@ -122,21 +123,34 @@ export function ExerciseSelector({
                   <h3 className="selector-group-title">
                     {muscleGroupLabels[group as MuscleGroup]}
                   </h3>
-                  {groupExercises.map((exercise) => (
-                    <button
-                      key={exercise.id}
-                      className="selector-item"
-                      onClick={() => onSelect(exercise.id)}
-                    >
-                      <div className="selector-item-info">
-                        <span className="selector-item-name">{exercise.name}</span>
-                        <span className="selector-item-type">
-                          {exerciseTypeLabels[exercise.exerciseType]}
-                        </span>
-                      </div>
-                      <Plus size={20} />
-                    </button>
-                  ))}
+                  {groupExercises.map((exercise) => {
+                    const lastPerformedDate = getLastPerformedDate(exercise.id);
+                    const lastPerformed = lastPerformedDate
+                      ? formatRelativeDate(lastPerformedDate)
+                      : null;
+
+                    return (
+                      <button
+                        key={exercise.id}
+                        className="selector-item"
+                        onClick={() => onSelect(exercise.id)}
+                      >
+                        <div className="selector-item-info">
+                          <span className="selector-item-name">{exercise.name}</span>
+                          <span className="selector-item-type">
+                            {exerciseTypeLabels[exercise.exerciseType]}
+                          </span>
+                          {lastPerformed && (
+                            <span className="selector-item-last-performed">
+                              <Clock size={12} />
+                              Last performed {lastPerformed}
+                            </span>
+                          )}
+                        </div>
+                        <Plus size={20} />
+                      </button>
+                    );
+                  })}
                 </div>
               ))
             )}

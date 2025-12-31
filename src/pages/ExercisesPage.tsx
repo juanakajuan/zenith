@@ -2,7 +2,14 @@ import { useState } from "react";
 import { Plus, Dumbbell, Search } from "lucide-react";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES, isDefaultExercise } from "../utils/storage";
+import {
+  STORAGE_KEYS,
+  generateId,
+  DEFAULT_EXERCISES,
+  isDefaultExercise,
+  getLastPerformedDate,
+  formatRelativeDate,
+} from "../utils/storage";
 
 import type { Exercise, MuscleGroup } from "../types";
 import { MUSCLE_GROUPS, EXERCISE_TYPES, muscleGroupLabels, exerciseTypeLabels } from "../types";
@@ -108,16 +115,24 @@ export function ExercisesPage() {
             <div key={group} className="exercise-group">
               <h2 className="group-title">{muscleGroupLabels[group]}</h2>
               <div className="exercise-list">
-                {groupedExercises[group].map((exercise) => (
-                  <ExerciseCard
-                    key={exercise.id}
-                    exercise={exercise}
-                    onClick={
-                      isDefaultExercise(exercise.id) ? undefined : () => handleEdit(exercise)
-                    }
-                    isDefault={isDefaultExercise(exercise.id)}
-                  />
-                ))}
+                {groupedExercises[group].map((exercise) => {
+                  const lastPerformedDate = getLastPerformedDate(exercise.id);
+                  const lastPerformed = lastPerformedDate
+                    ? formatRelativeDate(lastPerformedDate)
+                    : null;
+
+                  return (
+                    <ExerciseCard
+                      key={exercise.id}
+                      exercise={exercise}
+                      onClick={
+                        isDefaultExercise(exercise.id) ? undefined : () => handleEdit(exercise)
+                      }
+                      isDefault={isDefaultExercise(exercise.id)}
+                      lastPerformed={lastPerformed}
+                    />
+                  );
+                })}
               </div>
             </div>
           ))}

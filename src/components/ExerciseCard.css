@@ -25,6 +25,19 @@
   flex-wrap: wrap;
 }
 
+.exercise-last-performed {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.625rem;
+  font-size: 0.8rem;
+  color: var(--info-blue);
+}
+
+.exercise-last-performed svg {
+  flex-shrink: 0;
+}
+
 .exercise-notes {
   margin-top: 0.75rem;
   font-size: 0.85rem;

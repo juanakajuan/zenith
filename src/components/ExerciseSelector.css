@@ -123,7 +123,21 @@
   color: var(--text-secondary);
 }
 
-.selector-item svg {
+.selector-item-last-performed {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--info-blue);
+  margin-top: 0.15rem;
+}
+
+.selector-item-last-performed svg {
+  flex-shrink: 0;
+  opacity: 1;
+}
+
+.selector-item > svg {
   color: var(--accent);
   opacity: 0;
   transition: opacity var(--transition);
