@@ -76,6 +76,18 @@ export function WorkoutPage() {
     setShowExerciseSelector(false);
   };
 
+  const handleCreateExercise = (exerciseData: Omit<Exercise, "id">) => {
+    const newExercise: Exercise = {
+      ...exerciseData,
+      id: generateId(),
+    };
+
+    // Persist via localStorage
+    setExercises([...exercises, newExercise]);
+
+    addExerciseToWorkout(newExercise.id);
+  };
+
   const removeExerciseFromWorkout = (workoutExerciseId: string) => {
     if (!activeWorkout) return;
     setActiveWorkout({
@@ -424,6 +436,7 @@ export function WorkoutPage() {
           exercises={allExercises}
           onSelect={addExerciseToWorkout}
           onClose={() => setShowExerciseSelector(false)}
+          onCreateExercise={handleCreateExercise}
         />
       )}
     </div>
