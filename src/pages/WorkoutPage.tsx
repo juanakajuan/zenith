@@ -375,9 +375,13 @@ export function WorkoutPage() {
                 )}
 
                 <div className="sets-container">
-                  <div className="sets-header">
+                  <div
+                    className={`sets-header ${exercise.exerciseType === "bodyweight" ? "bodyweight" : ""}`}
+                  >
                     <span className="set-col-num"></span>
-                    <span className="set-col-weight">WEIGHT</span>
+                    {exercise.exerciseType !== "bodyweight" && (
+                      <span className="set-col-weight">WEIGHT</span>
+                    )}
                     <span className="set-col-reps">REPS</span>
                     <span className="set-col-done">LOG</span>
                   </div>
@@ -388,6 +392,7 @@ export function WorkoutPage() {
                       onUpdate={(updates) => updateSet(workoutExercise.id, set.id, updates)}
                       onRemove={() => removeSet(workoutExercise.id, set.id)}
                       canRemove={workoutExercise.sets.length > 1}
+                      exerciseType={exercise.exerciseType}
                     />
                   ))}
                 </div>

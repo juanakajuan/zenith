@@ -231,6 +231,10 @@
   border-bottom: 1px solid var(--border);
 }
 
+.sets-header.bodyweight {
+  grid-template-columns: 40px 1fr 50px;
+}
+
 .set-col-num {
   text-align: center;
 }

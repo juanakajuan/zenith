@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { MoreVertical, Trash2, Check } from "lucide-react";
 
-import type { WorkoutSet } from "../types";
+import type { WorkoutSet, ExerciseType } from "../types";
 
 import "./SetRow.css";
 
@@ -10,11 +10,13 @@ interface SetRowProps {
   onUpdate: (updates: Partial<WorkoutSet>) => void;
   onRemove: () => void;
   canRemove: boolean;
+  exerciseType: ExerciseType;
 }
 
-export function SetRow({ set, onUpdate, onRemove, canRemove }: SetRowProps) {
+export function SetRow({ set, onUpdate, onRemove, canRemove, exerciseType }: SetRowProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const isBodyweight = exerciseType === "bodyweight";
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -37,7 +39,9 @@ export function SetRow({ set, onUpdate, onRemove, canRemove }: SetRowProps) {
   };
 
   return (
-    <div className={`set-row ${set.completed ? "completed" : ""}`}>
+    <div
+      className={`set-row ${set.completed ? "completed" : ""} ${isBodyweight ? "bodyweight" : ""}`}
+    >
       <div className="set-menu" ref={menuRef}>
         <button
           className="set-menu-btn"
@@ -56,20 +60,22 @@ export function SetRow({ set, onUpdate, onRemove, canRemove }: SetRowProps) {
           </div>
         )}
       </div>
-      <div className="set-weight">
-        <input
-          type="number"
-          inputMode="decimal"
-          min="0"
-          value={set.weight || ""}
-          onChange={(e) => {
-            const value = parseFloat(e.target.value);
-            onUpdate({ weight: value >= 0 ? value : 0 });
-          }}
-          placeholder="lbs"
-          disabled={set.completed}
-        />
-      </div>
+      {!isBodyweight && (
+        <div className="set-weight">
+          <input
+            type="number"
+            inputMode="decimal"
+            min="0"
+            value={set.weight || ""}
+            onChange={(e) => {
+              const value = parseFloat(e.target.value);
+              onUpdate({ weight: value >= 0 ? value : 0 });
+            }}
+            placeholder="lbs"
+            disabled={set.completed}
+          />
+        </div>
+      )}
       <div className="set-reps">
         <input
           type="number"

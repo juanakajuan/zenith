@@ -8,6 +8,10 @@
   transition: opacity var(--transition);
 }
 
+.set-row.bodyweight {
+  grid-template-columns: 40px 1fr 50px;
+}
+
 .set-row:last-child {
   border-bottom: none;
 }
