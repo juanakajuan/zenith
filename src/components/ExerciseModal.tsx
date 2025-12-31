@@ -33,6 +33,9 @@ export function ExerciseModal({
   );
   const [notes, setNotes] = useState(exercise?.notes ?? "");
 
+  // Check if this is a default exercise (not yet overridden by user)
+  const isDefaultExercise = exercise?.id.startsWith("default-") ?? false;
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -67,8 +70,10 @@ export function ExerciseModal({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g., Bench Press"
-                autoFocus
+                autoFocus={!isDefaultExercise}
                 required
+                disabled={isDefaultExercise}
+                className={isDefaultExercise ? "disabled-field" : ""}
               />
             </div>
 
@@ -80,6 +85,8 @@ export function ExerciseModal({
                 id="exerciseType"
                 value={exerciseType}
                 onChange={(e) => setExerciseType(e.target.value as ExerciseType)}
+                disabled={isDefaultExercise}
+                className={isDefaultExercise ? "disabled-field" : ""}
               >
                 {exerciseTypes.map((type) => (
                   <option key={type} value={type}>
@@ -97,6 +104,8 @@ export function ExerciseModal({
                 id="muscleGroup"
                 value={muscleGroup}
                 onChange={(e) => setMuscleGroup(e.target.value as MuscleGroup)}
+                disabled={isDefaultExercise}
+                className={isDefaultExercise ? "disabled-field" : ""}
               >
                 {muscleGroups.map((group) => (
                   <option key={group} value={group}>
@@ -116,6 +125,7 @@ export function ExerciseModal({
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Tips, cues, or variations..."
                 rows={3}
+                autoFocus={isDefaultExercise}
               />
             </div>
           </div>

@@ -6,7 +6,6 @@ import {
   STORAGE_KEYS,
   generateId,
   DEFAULT_EXERCISES,
-  isDefaultExercise,
   getLastPerformedDate,
   formatRelativeDate,
 } from "../utils/storage";
@@ -26,8 +25,11 @@ export function ExercisesPage() {
   const [filterMuscle, setFilterMuscle] = useState<MuscleGroup | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Merge default exercises with user exercises
-  const allExercises = [...DEFAULT_EXERCISES, ...exercises];
+  // Merge default exercises with user exercises, user exercises override defaults
+  const allExercises = DEFAULT_EXERCISES.map((defaultEx) => {
+    const userOverride = exercises.find((e) => e.id === defaultEx.id);
+    return userOverride || defaultEx;
+  }).concat(exercises.filter((e) => !e.id.startsWith("default-")));
 
   const filteredExercises = allExercises.filter((exercise) => {
     const matchesMuscle = filterMuscle === "all" || exercise.muscleGroup === filterMuscle;
@@ -48,14 +50,28 @@ export function ExercisesPage() {
 
   const handleSave = (data: Omit<Exercise, "id">) => {
     if (editingExercise) {
-      setExercises(exercises.map((e) => (e.id === editingExercise.id ? { ...data, id: e.id } : e)));
+      // Check if this is an override for a default exercise
+      const existingUserExercise = exercises.find((e) => e.id === editingExercise.id);
+
+      if (existingUserExercise) {
+        // Update existing user exercise or override
+        setExercises(
+          exercises.map((e) => (e.id === editingExercise.id ? { ...data, id: e.id } : e))
+        );
+      } else {
+        // Create new override for default exercise
+        setExercises([...exercises, { ...data, id: editingExercise.id }]);
+      }
     } else {
+      // Create new user exercise
       setExercises([...exercises, { ...data, id: generateId() }]);
     }
     handleCloseModal();
   };
 
   const handleDelete = (id: string) => {
+    // Only delete if it's a user exercise (not a default exercise override)
+    // If it's a default exercise override, just remove the override
     setExercises(exercises.filter((e) => e.id !== id));
   };
 
@@ -125,10 +141,8 @@ export function ExercisesPage() {
                     <ExerciseCard
                       key={exercise.id}
                       exercise={exercise}
-                      onClick={
-                        isDefaultExercise(exercise.id) ? undefined : () => handleEdit(exercise)
-                      }
-                      isDefault={isDefaultExercise(exercise.id)}
+                      onClick={() => handleEdit(exercise)}
+                      isDefault={exercise.id.startsWith("default-")}
                       lastPerformed={lastPerformed}
                     />
                   );
@@ -145,7 +159,7 @@ export function ExercisesPage() {
           onSave={handleSave}
           onClose={handleCloseModal}
           onDelete={
-            editingExercise
+            editingExercise && !editingExercise.id.startsWith("default-")
               ? () => {
                   handleDelete(editingExercise.id);
                   handleCloseModal();

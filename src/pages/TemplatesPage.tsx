@@ -65,7 +65,11 @@ export function TemplatesPage() {
 
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
-  const allExercises = [...DEFAULT_EXERCISES, ...exercises];
+  // Merge default exercises with user exercises, user exercises override defaults
+  const allExercises = DEFAULT_EXERCISES.map((defaultEx) => {
+    const userOverride = exercises.find((e) => e.id === defaultEx.id);
+    return userOverride || defaultEx;
+  }).concat(exercises.filter((e) => !e.id.startsWith("default-")));
 
   const activeDay = days[activeDayIndex];
 

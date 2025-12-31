@@ -16,7 +16,11 @@ export function HistoryPage() {
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
 
   // Merge default exercises with user exercises
-  const allExercises = [...DEFAULT_EXERCISES, ...userExercises];
+  // Merge default exercises with user exercises, user exercises override defaults
+  const allExercises = DEFAULT_EXERCISES.map((defaultEx) => {
+    const userOverride = userExercises.find((e) => e.id === defaultEx.id);
+    return userOverride || defaultEx;
+  }).concat(userExercises.filter((e) => !e.id.startsWith("default-")));
 
   const getExerciseById = (id: string) => allExercises.find((e) => e.id === id);
 

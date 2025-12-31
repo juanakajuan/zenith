@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { CirclePlay, Pencil, Trash2, Plus, Check, X, Play } from "lucide-react";
+import {
+  CirclePlay,
+  Pencil,
+  Trash2,
+  Plus,
+  Check,
+  X,
+  Play,
+  Edit3,
+  MoreVertical,
+  StickyNote,
+} from "lucide-react";
 
 import type { Exercise, Workout, WorkoutExercise, WorkoutSet } from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, getMuscleGroupClassName } from "../types";
@@ -14,7 +25,7 @@ import { WorkoutTimer } from "../components/WorkoutTimer";
 import "./WorkoutPage.css";
 
 export function WorkoutPage() {
-  const [exercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
+  const [exercises, setExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
   const [activeWorkout, setActiveWorkout] = useLocalStorage<Workout | null>(
     STORAGE_KEYS.ACTIVE_WORKOUT,
@@ -23,9 +34,14 @@ export function WorkoutPage() {
   const [showExerciseSelector, setShowExerciseSelector] = useState(false);
   const [workoutName, setWorkoutName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  const [openKebabMenu, setOpenKebabMenu] = useState<string | null>(null);
 
-  // Merge default exercises with user exercises
-  const allExercises = [...DEFAULT_EXERCISES, ...exercises];
+  // Merge default exercises with user exercises, user exercises override defaults
+  const allExercises = DEFAULT_EXERCISES.map((defaultEx) => {
+    const userOverride = exercises.find((e) => e.id === defaultEx.id);
+    return userOverride || defaultEx;
+  }).concat(exercises.filter((e) => !e.id.startsWith("default-")));
 
   const startEmptyWorkout = () => {
     const today = new Date();
@@ -147,6 +163,48 @@ export function WorkoutPage() {
 
   const getExerciseById = (id: string) => allExercises.find((e) => e.id === id);
 
+  const updateExerciseNote = (exerciseId: string, noteText: string) => {
+    // Update in user exercises (will create override for default exercises)
+    const existingExercise = exercises.find((e) => e.id === exerciseId);
+
+    if (existingExercise) {
+      // Update existing user exercise
+      const updatedExercises = exercises.map((e) =>
+        e.id === exerciseId ? { ...e, notes: noteText } : e
+      );
+      setExercises(updatedExercises);
+    } else {
+      // Create override for default exercise
+      const defaultExercise = DEFAULT_EXERCISES.find((e) => e.id === exerciseId);
+      if (defaultExercise) {
+        setExercises([...exercises, { ...defaultExercise, notes: noteText }]);
+      }
+    }
+  };
+
+  const addNoteToExercise = (workoutExerciseId: string) => {
+    setEditingNoteId(workoutExerciseId);
+    setOpenKebabMenu(null);
+  };
+
+  const deleteNoteFromExercise = (exerciseId: string) => {
+    // Update exercise notes to empty
+    const existingExercise = exercises.find((e) => e.id === exerciseId);
+
+    if (existingExercise) {
+      const updatedExercises = exercises.map((e) =>
+        e.id === exerciseId ? { ...e, notes: "" } : e
+      );
+      setExercises(updatedExercises);
+    }
+
+    setOpenKebabMenu(null);
+  };
+
+  const hasNote = (exercise: Exercise): boolean => {
+    return !!exercise.notes;
+  };
+
   const allSetsCompleted = () => {
     if (!activeWorkout || activeWorkout.exercises.length === 0) return false;
     return activeWorkout.exercises.every((workoutExercise) =>
@@ -235,14 +293,74 @@ export function WorkoutPage() {
                       </span>
                     </div>
                   </div>
-                  <button
-                    className="btn btn-icon btn-ghost"
-                    onClick={() => removeExerciseFromWorkout(workoutExercise.id)}
-                    aria-label="Remove exercise"
-                  >
-                    <Trash2 size={20} />
-                  </button>
+                  <div className="workout-exercise-actions">
+                    <button
+                      className="btn btn-icon btn-ghost"
+                      onClick={() =>
+                        setOpenKebabMenu(
+                          openKebabMenu === workoutExercise.id ? null : workoutExercise.id
+                        )
+                      }
+                      aria-label="More options"
+                    >
+                      <MoreVertical size={20} />
+                    </button>
+                    {openKebabMenu === workoutExercise.id && (
+                      <div className="kebab-menu">
+                        {hasNote(exercise) ? (
+                          <button
+                            className="kebab-menu-item"
+                            onClick={() => deleteNoteFromExercise(exercise.id)}
+                          >
+                            <Trash2 size={16} />
+                            Delete Note
+                          </button>
+                        ) : (
+                          <button
+                            className="kebab-menu-item"
+                            onClick={() => addNoteToExercise(workoutExercise.id)}
+                          >
+                            <StickyNote size={16} />
+                            Add Note
+                          </button>
+                        )}
+                        <button
+                          className="kebab-menu-item kebab-menu-item-danger"
+                          onClick={() => {
+                            removeExerciseFromWorkout(workoutExercise.id);
+                            setOpenKebabMenu(null);
+                          }}
+                        >
+                          <Trash2 size={16} />
+                          Delete Exercise
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
+
+                {(hasNote(exercise) || editingNoteId === workoutExercise.id) && (
+                  <div className="workout-exercise-note-section">
+                    {editingNoteId === workoutExercise.id ? (
+                      <textarea
+                        className="workout-exercise-note-input"
+                        value={exercise.notes}
+                        onChange={(e) => updateExerciseNote(exercise.id, e.target.value)}
+                        onBlur={() => setEditingNoteId(null)}
+                        placeholder="Add notes..."
+                        autoFocus
+                      />
+                    ) : (
+                      <div
+                        className="workout-exercise-note"
+                        onClick={() => setEditingNoteId(workoutExercise.id)}
+                      >
+                        <Edit3 size={16} className="note-edit-icon" />
+                        <span>{exercise.notes || "Add notes..."}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="sets-container">
                   <div className="sets-header">
