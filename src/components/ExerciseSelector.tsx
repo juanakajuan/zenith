@@ -89,7 +89,6 @@ export function ExerciseSelector({
                 placeholder="Search exercises..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                autoFocus
               />
             </div>
             {!hideFilter && (
