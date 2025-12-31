@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Dumbbell, CirclePlay, History, Settings } from "lucide-react";
+import { Dumbbell, CirclePlay, History, CircleEllipsis } from "lucide-react";
 
 import "./BottomTabBar.css";
 
@@ -21,9 +21,9 @@ export function BottomTabBar() {
         <span>History</span>
       </NavLink>
 
-      <NavLink to="/settings" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
-        <Settings size={24} />
-        <span>Settings</span>
+      <NavLink to="/more" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
+        <CircleEllipsis size={24} />
+        <span>More</span>
       </NavLink>
     </nav>
   );
