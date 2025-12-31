@@ -1,9 +1,20 @@
-import { NavLink } from "react-router-dom";
+import { useRef } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { Dumbbell, LayoutTemplate, CirclePlay, History, CircleEllipsis } from "lucide-react";
 
 import "./BottomTabBar.css";
 
 export function BottomTabBar() {
+  const location = useLocation();
+  const lastTemplatesPath = useRef("/templates");
+
+  const isTemplatesActive = location.pathname.startsWith("/templates");
+
+  // Remember the last templates path when we're on a templates route
+  if (isTemplatesActive) {
+    lastTemplatesPath.current = location.pathname;
+  }
+
   return (
     <nav className="bottom-tab-bar">
       <NavLink to="/exercises" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
@@ -11,7 +22,10 @@ export function BottomTabBar() {
         <span>Exercises</span>
       </NavLink>
 
-      <NavLink to="/templates" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
+      <NavLink
+        to={lastTemplatesPath.current}
+        className={() => `tab ${isTemplatesActive ? "active" : ""}`}
+      >
         <LayoutTemplate size={24} />
         <span>Templates</span>
       </NavLink>

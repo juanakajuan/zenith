@@ -19,6 +19,12 @@ import { ExerciseSelector } from "../components/ExerciseSelector";
 
 import "./TemplateEditorPage.css";
 
+interface DraftTemplate {
+  name: string;
+  days: TemplateDay[];
+  activeDayIndex: number;
+}
+
 export function TemplateEditorPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -37,6 +43,7 @@ export function TemplateEditorPage() {
   ]);
   const [activeDayIndex, setActiveDayIndex] = useState(0);
   const [error, setError] = useState("");
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const [showMuscleGroupSelector, setShowMuscleGroupSelector] = useState(false);
 
@@ -55,7 +62,7 @@ export function TemplateEditorPage() {
 
   const activeDay = days[activeDayIndex];
 
-  // Load template data if editing
+  // Load template data if editing, or draft if creating new (runs once on mount)
   useEffect(() => {
     if (isEditMode) {
       const template = templates.find((t) => t.id === id);
@@ -67,8 +74,39 @@ export function TemplateEditorPage() {
         // Template not found, redirect to templates page
         navigate("/templates", { replace: true });
       }
+    } else {
+      // Load draft for new template
+      try {
+        const draftData = localStorage.getItem(STORAGE_KEYS.DRAFT_TEMPLATE);
+        if (draftData) {
+          const draft: DraftTemplate = JSON.parse(draftData);
+          setName(draft.name);
+          setDays(draft.days);
+          setActiveDayIndex(draft.activeDayIndex);
+        }
+      } catch (error) {
+        console.error("Error loading draft template:", error);
+      }
     }
-  }, [id, isEditMode, templates, navigate]);
+    setIsInitialized(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
+
+  // Save draft when creating new template (not when editing), but only after initialization
+  useEffect(() => {
+    if (!isEditMode && isInitialized) {
+      const draft: DraftTemplate = {
+        name,
+        days,
+        activeDayIndex,
+      };
+      try {
+        localStorage.setItem(STORAGE_KEYS.DRAFT_TEMPLATE, JSON.stringify(draft));
+      } catch (error) {
+        console.error("Error saving draft template:", error);
+      }
+    }
+  }, [name, days, activeDayIndex, isEditMode, isInitialized]);
 
   const handleBack = () => {
     navigate("/templates");
@@ -116,6 +154,11 @@ export function TemplateEditorPage() {
     } else {
       // Add new template at the beginning (newest first)
       setTemplates([savedTemplate, ...templates]);
+    }
+
+    // Clear draft if we were creating a new template
+    if (!isEditMode) {
+      localStorage.removeItem(STORAGE_KEYS.DRAFT_TEMPLATE);
     }
 
     navigate("/templates");

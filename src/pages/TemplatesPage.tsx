@@ -31,6 +31,8 @@ export function TemplatesPage() {
   // ========== Template CRUD ==========
 
   const handleCreateTemplate = () => {
+    // Clear any existing draft to start fresh
+    localStorage.removeItem(STORAGE_KEYS.DRAFT_TEMPLATE);
     navigate("/templates/new");
   };
 

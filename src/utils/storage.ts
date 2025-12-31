@@ -9,6 +9,7 @@ export const STORAGE_KEYS = {
   WORKOUTS: "zenith_workouts",
   ACTIVE_WORKOUT: "zenith_active_workout",
   TEMPLATES: "zenith_templates",
+  DRAFT_TEMPLATE: "zenith_draft_template",
 } as const;
 
 /**
