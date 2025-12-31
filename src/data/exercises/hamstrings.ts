@@ -31,7 +31,7 @@ export const hamstringsExercises: Exercise[] = [
     name: "Barbell Good Morning (High Bar)",
     muscleGroup: "hamstrings",
     exerciseType: "barbell",
-    notes: "Last performed 11/10/2025",
+    notes: "",
   },
   {
     id: "default-barbell-good-morning-low-bar",
@@ -59,7 +59,7 @@ export const hamstringsExercises: Exercise[] = [
     name: "Lying Leg Curl",
     muscleGroup: "hamstrings",
     exerciseType: "machine",
-    notes: "Last performed 7/6/2025",
+    notes: "",
   },
   {
     id: "default-nordic-curl",
@@ -73,7 +73,7 @@ export const hamstringsExercises: Exercise[] = [
     name: "Seated Leg Curl",
     muscleGroup: "hamstrings",
     exerciseType: "machine",
-    notes: "Last performed 11/5/2025",
+    notes: "",
   },
   {
     id: "default-single-leg-romanian-deadlift",
@@ -94,13 +94,13 @@ export const hamstringsExercises: Exercise[] = [
     name: "Smith Machine Good Morning",
     muscleGroup: "hamstrings",
     exerciseType: "smith-machine",
-    notes: "Last performed 2/9/2025",
+    notes: "",
   },
   {
     id: "default-stiff-legged-deadlift",
     name: "Stiff-Legged Deadlift",
     muscleGroup: "hamstrings",
     exerciseType: "barbell",
-    notes: "Last performed 12/8/2024",
+    notes: "",
   },
 ];

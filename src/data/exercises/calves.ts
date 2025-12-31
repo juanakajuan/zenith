@@ -17,14 +17,14 @@ export const calvesExercises: Exercise[] = [
     name: "Calf Machine",
     muscleGroup: "calves",
     exerciseType: "machine",
-    notes: "Last performed 11/10/2025",
+    notes: "",
   },
   {
     id: "default-leg-press-calves",
     name: "Leg Press Calves",
     muscleGroup: "calves",
     exerciseType: "machine",
-    notes: "Last performed 7/24/2025",
+    notes: "",
   },
   {
     id: "default-smith-machine-calves",
@@ -38,7 +38,7 @@ export const calvesExercises: Exercise[] = [
     name: "Stair Calves",
     muscleGroup: "calves",
     exerciseType: "bodyweight",
-    notes: "Last performed 8/5/2025",
+    notes: "",
   },
   {
     id: "default-stair-calves-single-leg",

@@ -31,14 +31,14 @@ export const quadsExercises: Exercise[] = [
     name: "Barbell Squat (High Bar)",
     muscleGroup: "quads",
     exerciseType: "barbell",
-    notes: "Last performed 8/30/2025",
+    notes: "",
   },
   {
     id: "default-barbell-squat-narrow-stance",
     name: "Barbell Squat (Narrow Stance)",
     muscleGroup: "quads",
     exerciseType: "barbell",
-    notes: "Last performed 7/6/2025",
+    notes: "",
   },
   {
     id: "default-barbell-squat-safety-bar",
@@ -59,7 +59,7 @@ export const quadsExercises: Exercise[] = [
     name: "Bodyweight Squat",
     muscleGroup: "quads",
     exerciseType: "bodyweight",
-    notes: "Last performed 8/5/2025",
+    notes: "",
   },
   {
     id: "default-bulgarian-split-squat-quad-focused",
@@ -115,14 +115,14 @@ export const quadsExercises: Exercise[] = [
     name: "Leg Extension",
     muscleGroup: "quads",
     exerciseType: "machine",
-    notes: "Last performed 9/20/2025",
+    notes: "",
   },
   {
     id: "default-leg-press",
     name: "Leg Press",
     muscleGroup: "quads",
     exerciseType: "machine",
-    notes: "Last performed 7/24/2025",
+    notes: "",
   },
   {
     id: "default-pendulum-squat",
@@ -178,13 +178,13 @@ export const quadsExercises: Exercise[] = [
     name: "Walking Lunges (Quad-Focused, Bodyweight)",
     muscleGroup: "quads",
     exerciseType: "bodyweight",
-    notes: "Last performed 7/22/2025",
+    notes: "",
   },
   {
     id: "default-walking-lunges-quad-focused-dumbbell",
     name: "Walking Lunges (Quad-Focused, Dumbbell)",
     muscleGroup: "quads",
     exerciseType: "dumbbell",
-    notes: "Last performed 8/3/2024",
+    notes: "",
   },
 ];
