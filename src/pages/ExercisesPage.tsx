@@ -89,8 +89,8 @@ export function ExercisesPage() {
     <div className="page">
       <header className="page-header">
         <h1 className="page-title">Exercises</h1>
-        <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
-          <Plus size={20} strokeWidth={2.5} />
+        <button className="btn btn-secondary btn-sm" onClick={() => setIsModalOpen(true)}>
+          <Plus size={16} />
           NEW
         </button>
       </header>
