@@ -1,7 +1,6 @@
 .exercise-selector-modal {
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
+  height: 80vh;
+  max-height: 600px;
 }
 
 .exercise-selector-header-actions {

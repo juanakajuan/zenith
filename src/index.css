@@ -351,7 +351,7 @@ textarea {
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   z-index: 100;
   padding: 1rem;
@@ -360,12 +360,14 @@ textarea {
 
 .modal {
   background: var(--bg-secondary);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-radius: var(--radius-lg);
   width: 100%;
   max-width: 500px;
   max-height: 85vh;
-  overflow-y: auto;
-  animation: slideUp 200ms ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: scaleIn 200ms ease;
 }
 
 .modal-header {
@@ -383,6 +385,8 @@ textarea {
 
 .modal-body {
   padding: 1.25rem;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .modal-footer {
@@ -412,6 +416,17 @@ textarea {
   }
   to {
     transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
