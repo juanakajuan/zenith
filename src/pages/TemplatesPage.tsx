@@ -9,6 +9,7 @@ import {
   Minus,
   ChevronUp,
   ChevronDown,
+  MoreVertical,
 } from "lucide-react";
 
 import type {
@@ -37,7 +38,6 @@ export function TemplatesPage() {
   const [templates, setTemplates] = useLocalStorage<WorkoutTemplate[]>(STORAGE_KEYS.TEMPLATES, []);
   const [, setActiveWorkout] = useLocalStorage<Workout | null>(STORAGE_KEYS.ACTIVE_WORKOUT, null);
 
-  // Edit/Create mode state
   const [isEditing, setIsEditing] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<WorkoutTemplate | null>(null);
   const [name, setName] = useState("");
@@ -51,14 +51,11 @@ export function TemplatesPage() {
   const [activeDayIndex, setActiveDayIndex] = useState(0);
   const [error, setError] = useState("");
 
-  // Day selector state (for multi-day template workout start)
   const [showDaySelector, setShowDaySelector] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<WorkoutTemplate | null>(null);
 
-  // Muscle group selector state
   const [showMuscleGroupSelector, setShowMuscleGroupSelector] = useState(false);
 
-  // Exercise selector state
   const [showExerciseSelector, setShowExerciseSelector] = useState(false);
   const [exerciseSelectorTarget, setExerciseSelectorTarget] = useState<{
     muscleGroupId: string;
@@ -66,7 +63,8 @@ export function TemplatesPage() {
     muscleGroup: MuscleGroup;
   } | null>(null);
 
-  // Merge default exercises with user exercises
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
   const allExercises = [...DEFAULT_EXERCISES, ...exercises];
 
   const activeDay = days[activeDayIndex];
@@ -416,6 +414,15 @@ export function TemplatesPage() {
     return allExercises.filter((e) => e.muscleGroup === exerciseSelectorTarget.muscleGroup);
   };
 
+  const toggleMenu = (templateId: string) => {
+    setOpenMenuId(openMenuId === templateId ? null : templateId);
+  };
+
+  const handleClickOutside = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest(".template-kebab-menu")) return;
+    setOpenMenuId(null);
+  };
+
   if (isEditing) {
     return (
       <>
@@ -625,7 +632,7 @@ export function TemplatesPage() {
 
   // List view
   return (
-    <div className="page templates-page">
+    <div className="page templates-page" onClick={handleClickOutside}>
       <header className="page-header">
         <h1 className="page-title">Templates</h1>
         <button className="btn btn-secondary btn-sm" onClick={openCreateTemplate}>
@@ -647,12 +654,53 @@ export function TemplatesPage() {
             return (
               <div key={template.id} className="template-card card">
                 <div className="template-card-header">
-                  <h3 className="template-card-name">{template.name}</h3>
-                  <span className="template-card-summary">
-                    {stats.dayCount > 1 && `${stats.dayCount} days · `}
-                    {stats.exerciseCount} exercise{stats.exerciseCount !== 1 ? "s" : ""} ·{" "}
-                    {stats.setCount} set{stats.setCount !== 1 ? "s" : ""}
-                  </span>
+                  <div className="template-card-info">
+                    <h3 className="template-card-name">{template.name}</h3>
+                    <span className="template-card-summary">
+                      {stats.dayCount > 1 && `${stats.dayCount} days · `}
+                      {stats.exerciseCount} exercise{stats.exerciseCount !== 1 ? "s" : ""} ·{" "}
+                      {stats.setCount} set{stats.setCount !== 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  <div className="template-kebab-menu">
+                    <button
+                      className="btn btn-ghost btn-icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleMenu(template.id);
+                      }}
+                      aria-label="More options"
+                      aria-expanded={openMenuId === template.id}
+                    >
+                      <MoreVertical size={18} />
+                    </button>
+                    {openMenuId === template.id && (
+                      <div className="template-kebab-dropdown">
+                        <button
+                          className="template-kebab-item"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenMenuId(null);
+                            openEditTemplate(template);
+                          }}
+                        >
+                          <Pencil size={16} />
+                          Edit
+                        </button>
+                        <button
+                          className="template-kebab-item template-kebab-item-delete"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenMenuId(null);
+                            deleteTemplate(template.id);
+                          }}
+                        >
+                          <Trash2 size={16} />
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="template-card-actions">
                   <button
@@ -661,20 +709,6 @@ export function TemplatesPage() {
                   >
                     <Play size={16} />
                     START
-                  </button>
-                  <button
-                    className="btn btn-ghost btn-icon"
-                    onClick={() => openEditTemplate(template)}
-                    aria-label="Edit template"
-                  >
-                    <Pencil size={18} />
-                  </button>
-                  <button
-                    className="btn btn-ghost btn-icon"
-                    onClick={() => deleteTemplate(template.id)}
-                    aria-label="Delete template"
-                  >
-                    <Trash2 size={18} />
                   </button>
                 </div>
               </div>

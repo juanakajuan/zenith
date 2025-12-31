@@ -40,7 +40,16 @@
 }
 
 .template-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
+  gap: 0.5rem;
+}
+
+.template-card-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .template-card-name {
@@ -54,6 +63,60 @@
   color: var(--text-secondary);
 }
 
+/* Kebab Menu */
+.template-kebab-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.template-kebab-menu .btn-icon {
+  color: var(--text-muted);
+}
+
+.template-kebab-menu .btn-icon:hover {
+  color: var(--text-primary);
+}
+
+.template-kebab-dropdown {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  min-width: 140px;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.template-kebab-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+  text-align: left;
+}
+
+.template-kebab-item:hover {
+  background: var(--bg-input);
+}
+
+.template-kebab-item-delete {
+  color: var(--accent);
+}
+
+.template-kebab-item-delete:hover {
+  background: var(--accent-dim);
+}
+
 .template-card-actions {
   display: flex;
   align-items: center;
@@ -61,15 +124,7 @@
 }
 
 .template-card-actions .btn-primary {
-  flex: 1;
-}
-
-.template-card-actions .btn-icon {
-  color: var(--text-muted);
-}
-
-.template-card-actions .btn-icon:hover {
-  color: var(--text-primary);
+  width: 100%;
 }
 
 /* Templates Page - Editor View */
