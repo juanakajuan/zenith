@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus, Play, Pencil, Trash2, MoreVertical } from "lucide-react";
 
@@ -8,6 +8,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES } from "../utils/storage";
 
 import { DaySelector } from "../components/DaySelector";
+import { DraftBanner } from "../components/DraftBanner";
 
 import "./TemplatesPage.css";
 
@@ -21,6 +22,7 @@ export function TemplatesPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<WorkoutTemplate | null>(null);
 
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [hasDraft, setHasDraft] = useState(false);
 
   // Merge default exercises with user exercises, user exercises override defaults
   const allExercises = DEFAULT_EXERCISES.map((defaultEx) => {
@@ -28,12 +30,31 @@ export function TemplatesPage() {
     return userOverride || defaultEx;
   }).concat(exercises.filter((e) => !e.id.startsWith("default-")));
 
+  // Check for draft template on mount
+  useEffect(() => {
+    const draftExists = localStorage.getItem(STORAGE_KEYS.DRAFT_TEMPLATE) !== null;
+    setHasDraft(draftExists);
+  }, []);
+
   // ========== Template CRUD ==========
 
   const handleCreateTemplate = () => {
-    // Clear any existing draft to start fresh
-    localStorage.removeItem(STORAGE_KEYS.DRAFT_TEMPLATE);
-    navigate("/templates/new");
+    // Check if draft exists
+    if (localStorage.getItem(STORAGE_KEYS.DRAFT_TEMPLATE)) {
+      if (
+        confirm(
+          "You have an unsaved template draft. Do you want to discard it and start a new template?"
+        )
+      ) {
+        localStorage.removeItem(STORAGE_KEYS.DRAFT_TEMPLATE);
+        setHasDraft(false);
+        navigate("/templates/new");
+      }
+      // If user cancels, do nothing (stay on templates page)
+    } else {
+      // No draft, proceed normally
+      navigate("/templates/new");
+    }
   };
 
   const handleEditTemplate = (templateId: string) => {
@@ -43,6 +64,19 @@ export function TemplatesPage() {
   const deleteTemplate = (templateId: string) => {
     if (confirm("Are you sure you want to delete this template?")) {
       setTemplates(templates.filter((t) => t.id !== templateId));
+    }
+  };
+
+  // ========== Draft Management ==========
+
+  const handleContinueDraft = () => {
+    navigate("/templates/new");
+  };
+
+  const handleDismissDraft = () => {
+    if (confirm("Are you sure you want to discard this draft template?")) {
+      localStorage.removeItem(STORAGE_KEYS.DRAFT_TEMPLATE);
+      setHasDraft(false);
     }
   };
 
@@ -139,6 +173,8 @@ export function TemplatesPage() {
           NEW
         </button>
       </header>
+
+      {hasDraft && <DraftBanner onContinue={handleContinueDraft} onDismiss={handleDismissDraft} />}
 
       {templates.length === 0 ? (
         <div className="templates-empty">
