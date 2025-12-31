@@ -26,24 +26,6 @@ function formatElapsedTime(seconds: number): string {
   return `${hours}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 }
 
-/**
- * WorkoutTimer component displays a live-updating timer showing workout duration.
- * Tracks elapsed time from the provided start time and updates every second.
- *
- * @remarks
- * Features:
- * - Displays time in HH:MM:SS format (e.g., "1:23:45")
- * - Updates automatically every second
- * - Persists across page refreshes (uses startTime from localStorage)
- * - Cleans up interval on unmount to prevent memory leaks
- * - Uses monospace font for consistent digit width
- *
- * @param props - Component props
- * @param props.startTime - ISO timestamp string of when the workout started
- *
- * @example
- * <WorkoutTimer startTime="2024-01-15T10:30:00.000Z" />
- */
 export function WorkoutTimer({ startTime }: WorkoutTimerProps) {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
 

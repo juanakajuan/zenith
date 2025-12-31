@@ -16,41 +16,6 @@ interface ExerciseModalProps {
   exerciseTypeLabels: Record<ExerciseType, string>;
 }
 
-/**
- * Modal dialog for creating or editing exercises.
- * Provides a form with fields for name, exercise type, muscle group, and notes.
- * Supports both create and edit modes based on whether an exercise is provided.
- *
- * @param props - Component props
- *
- * @remarks
- * - Prevents body scroll when open
- * - Name field is required and auto-focused
- * - Delete button only shown when editing and onDelete callback provided
- * - Clicking overlay closes the modal
- * - Form submission prevented if name is empty
- *
- * @example
- * // Create new exercise
- * <ExerciseModal
- *   exercise={null}
- *   onSave={(data) => handleCreateExercise(data)}
- *   onClose={() => setShowModal(false)}
- *   muscleGroups={MUSCLE_GROUPS}
- *   exerciseTypes={EXERCISE_TYPES}
- *   muscleGroupLabels={muscleGroupLabels}
- *   exerciseTypeLabels={exerciseTypeLabels}
- * />
- *
- * // Edit existing exercise
- * <ExerciseModal
- *   exercise={selectedExercise}
- *   onSave={(data) => handleUpdateExercise(data)}
- *   onClose={() => setShowModal(false)}
- *   onDelete={() => handleDeleteExercise()}
- *   {...otherProps}
- * />
- */
 export function ExerciseModal({
   exercise,
   onSave,

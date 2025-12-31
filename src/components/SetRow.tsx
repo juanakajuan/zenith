@@ -12,27 +12,6 @@ interface SetRowProps {
   canRemove: boolean;
 }
 
-/**
- * Interactive row component for editing a workout set.
- * Allows editing weight, reps, marking as complete, and deleting the set.
- * Includes a dropdown menu for additional actions.
- *
- * @param props - Component props
- *
- * @remarks
- * - Inputs are disabled when the set is marked as completed
- * - Delete button only enabled when canRemove is true
- * - Handles click-outside to close the dropdown menu
- * - Validates numeric inputs to prevent negative values
- *
- * @example
- * <SetRow
- *   set={workoutSet}
- *   onUpdate={(updates) => handleUpdateSet(setId, updates)}
- *   onRemove={() => handleRemoveSet(setId)}
- *   canRemove={sets.length > 1}
- * />
- */
 export function SetRow({ set, onUpdate, onRemove, canRemove }: SetRowProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);

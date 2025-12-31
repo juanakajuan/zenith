@@ -22,25 +22,6 @@ const MUSCLE_GROUP_CATEGORIES: { label: string; groups: MuscleGroup[] }[] = [
   { label: "Accessory", groups: ["calves", "traps", "forearms", "abs"] },
 ];
 
-/**
- * Modal dialog for selecting a muscle group.
- * Organizes muscle groups into Upper Push/Upper Pull/Legs/Accessory categories.
- * Used when adding muscle group sections to workout templates.
- *
- * @param props - Component props
- *
- * @remarks
- * - Muscle groups organized by training categories (Upper Push, Upper Pull, Legs, Accessory)
- * - Each muscle group shown with its associated color indicator
- * - Supports Escape key to close
- * - Click overlay to close modal
- *
- * @example
- * <MuscleGroupSelector
- *   onSelect={(muscleGroup) => addMuscleGroupToTemplate(muscleGroup)}
- *   onClose={() => setShowSelector(false)}
- * />
- */
 export function MuscleGroupSelector({ onSelect, onClose }: MuscleGroupSelectorProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {

@@ -18,12 +18,6 @@ import { absExercises } from "./exercises/abs";
  * These exercises are read-only and cannot be edited or deleted by users.
  * Combined with user-created exercises throughout the app.
  *
- * @remarks
- * - All default exercise IDs are prefixed with "default-"
- * - Organized by muscle group for easier maintenance
- * - Covers common exercises for all major muscle groups
- * - Users can create their own exercises to supplement these defaults
- *
  * @see {@link isDefaultExercise} for checking if an exercise is default
  */
 export const DEFAULT_EXERCISES: Exercise[] = [

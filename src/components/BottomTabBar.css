@@ -19,11 +19,13 @@
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 0.75rem;
   color: var(--text-muted);
   transition: color var(--transition);
   text-decoration: none;
   height: 60px;
+  flex: 1;
+  min-width: 0;
 }
 
 .tab svg {
@@ -36,6 +38,10 @@
   font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .tab.active {

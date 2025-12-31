@@ -13,29 +13,6 @@ interface WorkoutDetailModalProps {
   onDelete: () => void;
 }
 
-/**
- * Modal dialog for viewing details of a completed workout.
- * Displays workout statistics, exercises performed, and sets with completion status.
- * Allows deleting the workout from history.
- *
- * @param props - Component props
- *
- * @remarks
- * - Prevents body scroll when open
- * - Shows workout stats: exercise count, total sets, total volume (lbs)
- * - Displays formatted date (e.g., "Monday, January 1, 2024")
- * - Lists all exercises with muscle group tags and set details
- * - Completed sets shown with checkmark, skipped sets visually distinguished
- * - Click overlay to close modal
- *
- * @example
- * <WorkoutDetailModal
- *   workout={selectedWorkout}
- *   exercises={allExercises}
- *   onClose={() => setShowModal(false)}
- *   onDelete={() => handleDeleteWorkout(selectedWorkout.id)}
- * />
- */
 export function WorkoutDetailModal({
   workout,
   exercises,

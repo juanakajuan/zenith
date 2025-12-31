@@ -9,20 +9,6 @@ interface ExerciseCardProps {
   isDefault?: boolean;
 }
 
-/**
- * Card component for displaying exercise information.
- * Shows the exercise name, muscle group, exercise type, and optional notes.
- * Can be marked as a default exercise with a special tag.
- *
- * @param props - Component props
- *
- * @example
- * <ExerciseCard
- *   exercise={benchPress}
- *   onClick={() => handleEdit(benchPress)}
- *   isDefault={false}
- * />
- */
 export function ExerciseCard({ exercise, onClick, isDefault = false }: ExerciseCardProps) {
   return (
     <div className="exercise-card card" onClick={onClick}>

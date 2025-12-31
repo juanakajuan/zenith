@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Dumbbell, CirclePlay, History, CircleEllipsis } from "lucide-react";
+import { Dumbbell, LayoutTemplate, CirclePlay, History, CircleEllipsis } from "lucide-react";
 
 import "./BottomTabBar.css";
 
@@ -9,6 +9,11 @@ export function BottomTabBar() {
       <NavLink to="/exercises" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
         <Dumbbell size={24} />
         <span>Exercises</span>
+      </NavLink>
+
+      <NavLink to="/templates" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
+        <LayoutTemplate size={24} />
+        <span>Templates</span>
       </NavLink>
 
       <NavLink to="/workout" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>

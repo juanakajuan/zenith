@@ -1,14 +1,7 @@
 import { useState } from "react";
-import { CirclePlay, Pencil, Trash2, Plus, Check, X, Play, LayoutTemplate } from "lucide-react";
+import { CirclePlay, Pencil, Trash2, Plus, Check, X, Play } from "lucide-react";
 
-import type {
-  Exercise,
-  Workout,
-  WorkoutExercise,
-  WorkoutSet,
-  WorkoutTemplate,
-  TemplateDay,
-} from "../types";
+import type { Exercise, Workout, WorkoutExercise, WorkoutSet } from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, getMuscleGroupClassName } from "../types";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -16,25 +9,18 @@ import { STORAGE_KEYS, generateId, DEFAULT_EXERCISES } from "../utils/storage";
 
 import { SetRow } from "../components/SetRow";
 import { ExerciseSelector } from "../components/ExerciseSelector";
-import { TemplateModal } from "../components/TemplateModal";
-import { DaySelector } from "../components/DaySelector";
 import { WorkoutTimer } from "../components/WorkoutTimer";
 
 import "./WorkoutPage.css";
 
 export function WorkoutPage() {
-  const [exercises, setExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
+  const [exercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
   const [activeWorkout, setActiveWorkout] = useLocalStorage<Workout | null>(
     STORAGE_KEYS.ACTIVE_WORKOUT,
     null
   );
-  const [templates, setTemplates] = useLocalStorage<WorkoutTemplate[]>(STORAGE_KEYS.TEMPLATES, []);
   const [showExerciseSelector, setShowExerciseSelector] = useState(false);
-  const [showTemplateModal, setShowTemplateModal] = useState(false);
-  const [editingTemplate, setEditingTemplate] = useState<WorkoutTemplate | null>(null);
-  const [showDaySelector, setShowDaySelector] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState<WorkoutTemplate | null>(null);
   const [workoutName, setWorkoutName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
 
@@ -56,104 +42,6 @@ export function WorkoutPage() {
     };
     setActiveWorkout(newWorkout);
     setWorkoutName(defaultName);
-  };
-
-  const handleTemplateClick = (template: WorkoutTemplate) => {
-    // If template has only one day, start directly
-    if (template.days.length === 1) {
-      startFromTemplateDay(template, template.days[0]);
-    } else {
-      // Show day selector for multi-day templates
-      setSelectedTemplate(template);
-      setShowDaySelector(true);
-    }
-  };
-
-  const startFromTemplateDay = (template: WorkoutTemplate, day: TemplateDay) => {
-    const today = new Date();
-
-    // Collect all exercises from the day's muscle groups
-    const workoutExercises: WorkoutExercise[] = [];
-    day.muscleGroups.forEach((muscleGroup) => {
-      muscleGroup.exercises.forEach((templateExercise) => {
-        if (templateExercise.exerciseId) {
-          workoutExercises.push({
-            id: generateId(),
-            exerciseId: templateExercise.exerciseId,
-            sets: Array.from({ length: templateExercise.setCount }, () => ({
-              id: generateId(),
-              weight: 0,
-              reps: 0,
-              completed: false,
-            })),
-          });
-        }
-      });
-    });
-
-    const workoutDisplayName =
-      template.days.length > 1 ? `${template.name} - ${day.name}` : template.name;
-
-    const newWorkout: Workout = {
-      id: generateId(),
-      name: workoutDisplayName,
-      date: today.toISOString(),
-      startTime: today.toISOString(),
-      exercises: workoutExercises,
-      completed: false,
-    };
-    setActiveWorkout(newWorkout);
-    setWorkoutName(workoutDisplayName);
-    setShowDaySelector(false);
-    setSelectedTemplate(null);
-  };
-
-  const saveTemplate = (template: WorkoutTemplate) => {
-    const existingIndex = templates.findIndex((t) => t.id === template.id);
-    if (existingIndex >= 0) {
-      // Update existing template
-      const updated = [...templates];
-      updated[existingIndex] = template;
-      setTemplates(updated);
-    } else {
-      // Add new template at the beginning (newest first)
-      setTemplates([template, ...templates]);
-    }
-    setShowTemplateModal(false);
-    setEditingTemplate(null);
-  };
-
-  const deleteTemplate = (templateId: string) => {
-    if (confirm("Are you sure you want to delete this template?")) {
-      setTemplates(templates.filter((t) => t.id !== templateId));
-    }
-  };
-
-  const openEditTemplate = (template: WorkoutTemplate) => {
-    setEditingTemplate(template);
-    setShowTemplateModal(true);
-  };
-
-  const handleExerciseCreated = (newExercise: Exercise) => {
-    setExercises([...exercises, newExercise]);
-  };
-
-  const getTemplateStats = (template: WorkoutTemplate) => {
-    let exerciseCount = 0;
-    let setCount = 0;
-
-    template.days.forEach((day) => {
-      day.muscleGroups.forEach((mg) => {
-        mg.exercises.forEach((ex) => {
-          if (ex.exerciseId) {
-            exerciseCount++;
-            setCount += ex.setCount;
-          }
-        });
-      });
-    });
-
-    return { exerciseCount, setCount, dayCount: template.days.length };
   };
 
   const addExerciseToWorkout = (exerciseId: string) => {
@@ -266,7 +154,7 @@ export function WorkoutPage() {
     );
   };
 
-  // No active workout - show start screen with templates
+  // No active workout - show start screen
   if (!activeWorkout) {
     return (
       <div className="page workout-page-idle">
@@ -287,99 +175,6 @@ export function WorkoutPage() {
             </button>
           </div>
         </div>
-
-        <div className="templates-section">
-          <div className="templates-header">
-            <div className="templates-header-title">
-              <LayoutTemplate size={20} />
-              <h2>Templates</h2>
-            </div>
-            <button
-              className="btn btn-secondary btn-sm"
-              onClick={() => {
-                setEditingTemplate(null);
-                setShowTemplateModal(true);
-              }}
-            >
-              <Plus size={16} />
-              NEW
-            </button>
-          </div>
-
-          {templates.length === 0 ? (
-            <div className="templates-empty">
-              <p>No templates yet.</p>
-              <p className="hint">Create one to quickly start workouts.</p>
-            </div>
-          ) : (
-            <div className="templates-list">
-              {templates.map((template) => {
-                const stats = getTemplateStats(template);
-
-                return (
-                  <div key={template.id} className="template-card card">
-                    <div className="template-card-header">
-                      <h3 className="template-card-name">{template.name}</h3>
-                      <span className="template-card-summary">
-                        {stats.dayCount > 1 && `${stats.dayCount} days · `}
-                        {stats.exerciseCount} exercise{stats.exerciseCount !== 1 ? "s" : ""} ·{" "}
-                        {stats.setCount} set{stats.setCount !== 1 ? "s" : ""}
-                      </span>
-                    </div>
-                    <div className="template-card-actions">
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() => handleTemplateClick(template)}
-                      >
-                        <Play size={16} />
-                        START
-                      </button>
-                      <button
-                        className="btn btn-ghost btn-icon"
-                        onClick={() => openEditTemplate(template)}
-                        aria-label="Edit template"
-                      >
-                        <Pencil size={18} />
-                      </button>
-                      <button
-                        className="btn btn-ghost btn-icon"
-                        onClick={() => deleteTemplate(template.id)}
-                        aria-label="Delete template"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {showTemplateModal && (
-          <TemplateModal
-            exercises={allExercises}
-            template={editingTemplate}
-            onSave={saveTemplate}
-            onClose={() => {
-              setShowTemplateModal(false);
-              setEditingTemplate(null);
-            }}
-            onExerciseCreated={handleExerciseCreated}
-          />
-        )}
-
-        {showDaySelector && selectedTemplate && (
-          <DaySelector
-            template={selectedTemplate}
-            exercises={allExercises}
-            onSelect={(day) => startFromTemplateDay(selectedTemplate, day)}
-            onClose={() => {
-              setShowDaySelector(false);
-              setSelectedTemplate(null);
-            }}
-          />
-        )}
       </div>
     );
   }
