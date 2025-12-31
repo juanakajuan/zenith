@@ -214,7 +214,7 @@ const allExercises = [...DEFAULT_EXERCISES, ...exercises];
 
 ### Documentation
 
-- Make sure to add TSDoc documentation that is standard for React projects.
+- Make sure to add TSDoc documentation to new functions added.
 
 ### Rules
 

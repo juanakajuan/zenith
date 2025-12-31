@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { X, Search, Plus } from "lucide-react";
 
 import type { Exercise, MuscleGroup } from "../types";
-import { muscleGroupLabels, exerciseTypeLabels, MUSCLE_GROUPS } from "../types";
+import { muscleGroupLabels, exerciseTypeLabels, MUSCLE_GROUPS, EXERCISE_TYPES } from "../types";
+
+import { ExerciseModal } from "./ExerciseModal";
 
 import "./ExerciseSelector.css";
 
@@ -11,47 +13,21 @@ interface ExerciseSelectorProps {
   onSelect: (exerciseId: string) => void;
   onClose: () => void;
   hideFilter?: boolean;
+  onCreateExercise?: (exercise: Omit<Exercise, "id">) => void;
+  initialMuscleGroup?: MuscleGroup;
 }
 
-/**
- * Modal dialog for selecting an exercise from the user's exercise library.
- * Provides search functionality and optional muscle group filtering.
- * Exercises are grouped by muscle group for easy browsing.
- *
- * @param props - Component props
- *
- * @remarks
- * - Prevents body scroll when open
- * - Search is case-insensitive and matches exercise names
- * - Exercises grouped by muscle group in the results
- * - Shows empty state when no exercises exist or match search
- * - Search input auto-focused on mount
- * - Click overlay to close modal
- *
- * @example
- * // With muscle group filter
- * <ExerciseSelector
- *   exercises={allExercises}
- *   onSelect={(id) => addExerciseToWorkout(id)}
- *   onClose={() => setShowSelector(false)}
- * />
- *
- * // Without muscle group filter (for template editing)
- * <ExerciseSelector
- *   exercises={chestExercises}
- *   onSelect={(id) => selectForTemplate(id)}
- *   onClose={() => setShowSelector(false)}
- *   hideFilter
- * />
- */
 export function ExerciseSelector({
   exercises,
   onSelect,
   onClose,
   hideFilter = false,
+  onCreateExercise,
+  initialMuscleGroup,
 }: ExerciseSelectorProps) {
   const [search, setSearch] = useState("");
   const [filterMuscle, setFilterMuscle] = useState<MuscleGroup | "all">("all");
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -76,76 +52,110 @@ export function ExerciseSelector({
     {} as Record<MuscleGroup, Exercise[]>
   );
 
+  const handleCreateExercise = (exerciseData: Omit<Exercise, "id">) => {
+    if (onCreateExercise) {
+      onCreateExercise(exerciseData);
+      setShowCreateModal(false);
+    }
+  };
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal exercise-selector-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2 className="modal-title">Select Exercise</h2>
-          <button className="btn btn-icon btn-ghost" onClick={onClose} aria-label="Close">
-            <X size={20} />
-          </button>
-        </div>
-
-        <div className="selector-filters">
-          <div className="search-input-wrapper">
-            <Search size={20} />
-            <input
-              type="text"
-              placeholder="Search exercises..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              autoFocus
-            />
+    <>
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal exercise-selector-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h2 className="modal-title">Select Exercise</h2>
+            <div className="exercise-selector-header-actions">
+              {onCreateExercise && (
+                <button
+                  className="btn btn-primary btn-sm btn-new-exercise"
+                  onClick={() => setShowCreateModal(true)}
+                >
+                  <Plus size={16} />
+                  New
+                </button>
+              )}
+              <button className="btn btn-icon btn-ghost" onClick={onClose} aria-label="Close">
+                <X size={20} />
+              </button>
+            </div>
           </div>
-          {!hideFilter && (
-            <select
-              value={filterMuscle}
-              onChange={(e) => setFilterMuscle(e.target.value as MuscleGroup | "all")}
-            >
-              <option value="all">All Muscles</option>
-              {MUSCLE_GROUPS.map((group) => (
-                <option key={group} value={group}>
-                  {muscleGroupLabels[group]}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
 
-        <div className="selector-list">
-          {exercises.length === 0 ? (
-            <div className="selector-empty">
-              <p>No exercises created yet.</p>
-              <p className="hint">Go to the Exercises tab to add some!</p>
+          <div className="selector-filters">
+            <div className="search-input-wrapper">
+              <Search size={20} />
+              <input
+                type="text"
+                placeholder="Search exercises..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                autoFocus
+              />
             </div>
-          ) : filteredExercises.length === 0 ? (
-            <div className="selector-empty">
-              <p>No exercises match your search.</p>
-            </div>
-          ) : (
-            Object.entries(groupedExercises).map(([group, groupExercises]) => (
-              <div key={group} className="selector-group">
-                <h3 className="selector-group-title">{muscleGroupLabels[group as MuscleGroup]}</h3>
-                {groupExercises.map((exercise) => (
-                  <button
-                    key={exercise.id}
-                    className="selector-item"
-                    onClick={() => onSelect(exercise.id)}
-                  >
-                    <div className="selector-item-info">
-                      <span className="selector-item-name">{exercise.name}</span>
-                      <span className="selector-item-type">
-                        {exerciseTypeLabels[exercise.exerciseType]}
-                      </span>
-                    </div>
-                    <Plus size={20} />
-                  </button>
+            {!hideFilter && (
+              <select
+                value={filterMuscle}
+                onChange={(e) => setFilterMuscle(e.target.value as MuscleGroup | "all")}
+              >
+                <option value="all">All Muscles</option>
+                {MUSCLE_GROUPS.map((group) => (
+                  <option key={group} value={group}>
+                    {muscleGroupLabels[group]}
+                  </option>
                 ))}
+              </select>
+            )}
+          </div>
+
+          <div className="selector-list">
+            {exercises.length === 0 ? (
+              <div className="selector-empty">
+                <p>No exercises created yet.</p>
+                <p className="hint">Go to the Exercises tab to add some!</p>
               </div>
-            ))
-          )}
+            ) : filteredExercises.length === 0 ? (
+              <div className="selector-empty">
+                <p>No exercises match your search.</p>
+              </div>
+            ) : (
+              Object.entries(groupedExercises).map(([group, groupExercises]) => (
+                <div key={group} className="selector-group">
+                  <h3 className="selector-group-title">
+                    {muscleGroupLabels[group as MuscleGroup]}
+                  </h3>
+                  {groupExercises.map((exercise) => (
+                    <button
+                      key={exercise.id}
+                      className="selector-item"
+                      onClick={() => onSelect(exercise.id)}
+                    >
+                      <div className="selector-item-info">
+                        <span className="selector-item-name">{exercise.name}</span>
+                        <span className="selector-item-type">
+                          {exerciseTypeLabels[exercise.exerciseType]}
+                        </span>
+                      </div>
+                      <Plus size={20} />
+                    </button>
+                  ))}
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      {showCreateModal && (
+        <ExerciseModal
+          exercise={initialMuscleGroup ? ({ muscleGroup: initialMuscleGroup } as Exercise) : null}
+          onSave={handleCreateExercise}
+          onClose={() => setShowCreateModal(false)}
+          muscleGroups={MUSCLE_GROUPS}
+          exerciseTypes={EXERCISE_TYPES}
+          muscleGroupLabels={muscleGroupLabels}
+          exerciseTypeLabels={exerciseTypeLabels}
+        />
+      )}
+    </>
   );
 }

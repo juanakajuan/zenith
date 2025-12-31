@@ -23,7 +23,7 @@ import { WorkoutTimer } from "../components/WorkoutTimer";
 import "./WorkoutPage.css";
 
 export function WorkoutPage() {
-  const [exercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
+  const [exercises, setExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
   const [activeWorkout, setActiveWorkout] = useLocalStorage<Workout | null>(
     STORAGE_KEYS.ACTIVE_WORKOUT,
@@ -132,6 +132,10 @@ export function WorkoutPage() {
   const openEditTemplate = (template: WorkoutTemplate) => {
     setEditingTemplate(template);
     setShowTemplateModal(true);
+  };
+
+  const handleExerciseCreated = (newExercise: Exercise) => {
+    setExercises([...exercises, newExercise]);
   };
 
   const getTemplateStats = (template: WorkoutTemplate) => {
@@ -361,6 +365,7 @@ export function WorkoutPage() {
               setShowTemplateModal(false);
               setEditingTemplate(null);
             }}
+            onExerciseCreated={handleExerciseCreated}
           />
         )}
 
