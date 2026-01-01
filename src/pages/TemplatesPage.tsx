@@ -125,6 +125,8 @@ export function TemplatesPage() {
       startTime: today.toISOString(),
       exercises: workoutExercises,
       completed: false,
+      templateId: template.id,
+      templateDayId: day.id,
     };
 
     setActiveWorkout(newWorkout);

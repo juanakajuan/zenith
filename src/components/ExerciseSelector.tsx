@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Search, Plus, Clock } from "lucide-react";
+import { X, Search, Plus, Clock, Check } from "lucide-react";
 
 import type { Exercise, MuscleGroup } from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, MUSCLE_GROUPS, EXERCISE_TYPES } from "../types";
@@ -16,6 +16,11 @@ interface ExerciseSelectorProps {
   hideFilter?: boolean;
   onCreateExercise?: (exercise: Omit<Exercise, "id">) => void;
   initialMuscleGroup?: MuscleGroup;
+  isReplacement?: boolean;
+  currentExerciseId?: string;
+  showTemplateUpdate?: boolean;
+  onTemplateUpdateChange?: (update: boolean) => void;
+  templateUpdateChecked?: boolean;
 }
 
 export function ExerciseSelector({
@@ -25,10 +30,16 @@ export function ExerciseSelector({
   hideFilter = false,
   onCreateExercise,
   initialMuscleGroup,
+  isReplacement = false,
+  currentExerciseId,
+  showTemplateUpdate = false,
+  onTemplateUpdateChange,
+  templateUpdateChecked = false,
 }: ExerciseSelectorProps) {
   const [search, setSearch] = useState("");
   const [filterMuscle, setFilterMuscle] = useState<MuscleGroup | "all">("all");
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -40,7 +51,8 @@ export function ExerciseSelector({
   const filteredExercises = exercises.filter((exercise) => {
     const matchesSearch = exercise.name.toLowerCase().includes(search.toLowerCase());
     const matchesMuscle = filterMuscle === "all" || exercise.muscleGroup === filterMuscle;
-    return matchesSearch && matchesMuscle;
+    const notCurrentExercise = !isReplacement || exercise.id !== currentExerciseId;
+    return matchesSearch && matchesMuscle && notCurrentExercise;
   });
 
   const groupedExercises = filteredExercises.reduce(
@@ -57,6 +69,20 @@ export function ExerciseSelector({
     if (onCreateExercise) {
       onCreateExercise(exerciseData);
       setShowCreateModal(false);
+    }
+  };
+
+  const handleExerciseClick = (exerciseId: string) => {
+    if (isReplacement) {
+      setSelectedExerciseId(exerciseId);
+    } else {
+      onSelect(exerciseId);
+    }
+  };
+
+  const handleConfirmSelection = () => {
+    if (selectedExerciseId) {
+      onSelect(selectedExerciseId);
     }
   };
 
@@ -129,11 +155,13 @@ export function ExerciseSelector({
                       ? formatRelativeDate(lastPerformedDate)
                       : null;
 
+                    const isSelected = isReplacement && selectedExerciseId === exercise.id;
+
                     return (
                       <button
                         key={exercise.id}
-                        className="selector-item"
-                        onClick={() => onSelect(exercise.id)}
+                        className={`selector-item ${isSelected ? "selected" : ""}`}
+                        onClick={() => handleExerciseClick(exercise.id)}
                       >
                         <div className="selector-item-info">
                           <span className="selector-item-name">{exercise.name}</span>
@@ -147,7 +175,7 @@ export function ExerciseSelector({
                             </span>
                           )}
                         </div>
-                        <Plus size={20} />
+                        {isSelected && <Check size={20} />}
                       </button>
                     );
                   })}
@@ -155,6 +183,29 @@ export function ExerciseSelector({
               ))
             )}
           </div>
+
+          {isReplacement && (
+            <div className="selector-footer">
+              {showTemplateUpdate && (
+                <label className="selector-template-update-label">
+                  <input
+                    type="checkbox"
+                    checked={templateUpdateChecked}
+                    onChange={(e) => onTemplateUpdateChange?.(e.target.checked)}
+                  />
+                  <span>Update template</span>
+                </label>
+              )}
+              <button
+                className="btn btn-primary selector-ok-button"
+                onClick={handleConfirmSelection}
+                disabled={!selectedExerciseId}
+              >
+                <Check size={18} />
+                OK
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

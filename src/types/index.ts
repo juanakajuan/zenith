@@ -60,6 +60,8 @@ export interface Workout {
   duration?: number;
   exercises: WorkoutExercise[];
   completed: boolean;
+  templateId?: string;
+  templateDayId?: string;
 }
 
 export interface TemplateExercise {

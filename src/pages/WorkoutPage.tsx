@@ -10,9 +10,10 @@ import {
   Edit3,
   MoreVertical,
   StickyNote,
+  ArrowLeftRight,
 } from "lucide-react";
 
-import type { Exercise, Workout, WorkoutExercise, WorkoutSet } from "../types";
+import type { Exercise, Workout, WorkoutExercise, WorkoutSet, WorkoutTemplate } from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, getMuscleGroupClassName } from "../types";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -27,6 +28,7 @@ import "./WorkoutPage.css";
 export function WorkoutPage() {
   const [exercises, setExercises] = useLocalStorage<Exercise[]>(STORAGE_KEYS.EXERCISES, []);
   const [workouts, setWorkouts] = useLocalStorage<Workout[]>(STORAGE_KEYS.WORKOUTS, []);
+  const [templates, setTemplates] = useLocalStorage<WorkoutTemplate[]>(STORAGE_KEYS.TEMPLATES, []);
   const [activeWorkout, setActiveWorkout] = useLocalStorage<Workout | null>(
     STORAGE_KEYS.ACTIVE_WORKOUT,
     null
@@ -36,6 +38,8 @@ export function WorkoutPage() {
   const [isEditingName, setIsEditingName] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [openKebabMenu, setOpenKebabMenu] = useState<string | null>(null);
+  const [replacingWorkoutExerciseId, setReplacingWorkoutExerciseId] = useState<string | null>(null);
+  const [updateTemplateOnReplace, setUpdateTemplateOnReplace] = useState(false);
 
   // Merge default exercises with user exercises, user exercises override defaults
   const allExercises = DEFAULT_EXERCISES.map((defaultEx) => {
@@ -175,6 +179,25 @@ export function WorkoutPage() {
 
   const getExerciseById = (id: string) => allExercises.find((e) => e.id === id);
 
+  const getReplacementMuscleGroup = () => {
+    if (!replacingWorkoutExerciseId || !activeWorkout) return undefined;
+
+    const workoutExercise = activeWorkout.exercises.find(
+      (e) => e.id === replacingWorkoutExerciseId
+    );
+    if (!workoutExercise) return undefined;
+
+    const exercise = getExerciseById(workoutExercise.exerciseId);
+    return exercise?.muscleGroup;
+  };
+
+  const getReplacementExercises = () => {
+    const muscleGroup = getReplacementMuscleGroup();
+    if (!muscleGroup) return allExercises;
+
+    return allExercises.filter((e) => e.muscleGroup === muscleGroup);
+  };
+
   const updateExerciseNote = (exerciseId: string, noteText: string) => {
     // Update in user exercises (will create override for default exercises)
     const existingExercise = exercises.find((e) => e.id === exerciseId);
@@ -197,6 +220,105 @@ export function WorkoutPage() {
   const addNoteToExercise = (workoutExerciseId: string) => {
     setEditingNoteId(workoutExerciseId);
     setOpenKebabMenu(null);
+  };
+
+  const replaceExerciseInWorkout = (newExerciseId: string) => {
+    if (!activeWorkout || !replacingWorkoutExerciseId) return;
+
+    const workoutExerciseIndex = activeWorkout.exercises.findIndex(
+      (e) => e.id === replacingWorkoutExerciseId
+    );
+
+    if (workoutExerciseIndex === -1) return;
+
+    const oldWorkoutExercise = activeWorkout.exercises[workoutExerciseIndex];
+
+    const newSets = oldWorkoutExercise.sets.map((set) => ({
+      ...set,
+      weight: 0,
+      reps: 0,
+      completed: false,
+    }));
+
+    const updatedWorkout = {
+      ...activeWorkout,
+      exercises: activeWorkout.exercises.map((e) =>
+        e.id === replacingWorkoutExerciseId ? { ...e, exerciseId: newExerciseId, sets: newSets } : e
+      ),
+    };
+
+    setActiveWorkout(updatedWorkout);
+
+    if (updateTemplateOnReplace && activeWorkout.templateId && activeWorkout.templateDayId) {
+      updateTemplateExercise(
+        activeWorkout.templateId,
+        activeWorkout.templateDayId,
+        workoutExerciseIndex,
+        newExerciseId
+      );
+    }
+
+    setReplacingWorkoutExerciseId(null);
+    setUpdateTemplateOnReplace(false);
+  };
+
+  const updateTemplateExercise = (
+    templateId: string,
+    templateDayId: string,
+    exercisePositionInWorkout: number,
+    newExerciseId: string
+  ) => {
+    const template = templates.find((t) => t.id === templateId);
+    if (!template) return;
+
+    const day = template.days.find((d) => d.id === templateDayId);
+    if (!day) return;
+
+    let currentPosition = 0;
+    let targetMuscleGroupId: string | null = null;
+    let targetExerciseId: string | null = null;
+
+    for (const mg of day.muscleGroups) {
+      for (const ex of mg.exercises) {
+        if (currentPosition === exercisePositionInWorkout) {
+          targetMuscleGroupId = mg.id;
+          targetExerciseId = ex.id;
+          break;
+        }
+        currentPosition++;
+      }
+      if (targetMuscleGroupId) break;
+    }
+
+    if (!targetMuscleGroupId || !targetExerciseId) return;
+
+    const updatedTemplates = templates.map((t) => {
+      if (t.id !== templateId) return t;
+
+      return {
+        ...t,
+        days: t.days.map((d) => {
+          if (d.id !== templateDayId) return d;
+
+          return {
+            ...d,
+            muscleGroups: d.muscleGroups.map((mg) => {
+              if (mg.id !== targetMuscleGroupId) return mg;
+
+              return {
+                ...mg,
+                exercises: mg.exercises.map((ex) => {
+                  if (ex.id !== targetExerciseId) return ex;
+                  return { ...ex, exerciseId: newExerciseId };
+                }),
+              };
+            }),
+          };
+        }),
+      };
+    });
+
+    setTemplates(updatedTemplates);
   };
 
   const deleteNoteFromExercise = (exerciseId: string) => {
@@ -337,6 +459,16 @@ export function WorkoutPage() {
                           </button>
                         )}
                         <button
+                          className="kebab-menu-item"
+                          onClick={() => {
+                            setReplacingWorkoutExerciseId(workoutExercise.id);
+                            setOpenKebabMenu(null);
+                          }}
+                        >
+                          <ArrowLeftRight size={16} />
+                          Replace Exercise
+                        </button>
+                        <button
                           className="kebab-menu-item kebab-menu-item-danger"
                           onClick={() => {
                             removeExerciseFromWorkout(workoutExercise.id);
@@ -436,12 +568,36 @@ export function WorkoutPage() {
         </button>
       </div>
 
-      {showExerciseSelector && (
+      {(showExerciseSelector || replacingWorkoutExerciseId) && (
         <ExerciseSelector
-          exercises={allExercises}
-          onSelect={addExerciseToWorkout}
-          onClose={() => setShowExerciseSelector(false)}
+          exercises={replacingWorkoutExerciseId ? getReplacementExercises() : allExercises}
+          onSelect={(exerciseId) => {
+            if (replacingWorkoutExerciseId) {
+              replaceExerciseInWorkout(exerciseId);
+            } else {
+              addExerciseToWorkout(exerciseId);
+            }
+          }}
+          onClose={() => {
+            setShowExerciseSelector(false);
+            setReplacingWorkoutExerciseId(null);
+            setUpdateTemplateOnReplace(false);
+          }}
           onCreateExercise={handleCreateExercise}
+          isReplacement={!!replacingWorkoutExerciseId}
+          currentExerciseId={
+            replacingWorkoutExerciseId
+              ? activeWorkout?.exercises.find((e) => e.id === replacingWorkoutExerciseId)
+                  ?.exerciseId
+              : undefined
+          }
+          showTemplateUpdate={
+            !!replacingWorkoutExerciseId &&
+            !!activeWorkout?.templateId &&
+            !!activeWorkout?.templateDayId
+          }
+          templateUpdateChecked={updateTemplateOnReplace}
+          onTemplateUpdateChange={setUpdateTemplateOnReplace}
         />
       )}
     </div>
