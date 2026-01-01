@@ -88,6 +88,10 @@ export interface WorkoutTemplate {
   days: TemplateDay[];
 }
 
+export interface Settings {
+  autoMatchWeight: boolean;
+}
+
 /**
  * Array of all available muscle groups in the application.
  * Used for generating UI elements and validation.

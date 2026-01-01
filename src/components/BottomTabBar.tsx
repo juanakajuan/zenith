@@ -8,6 +8,7 @@ export function BottomTabBar() {
   const location = useLocation();
 
   const isTemplatesActive = location.pathname.startsWith("/templates");
+  const isMoreActive = location.pathname.startsWith("/more");
 
   // Use functional update to derive state from current location
   const [savedTemplatesPath, setSavedTemplatesPath] = useState(() => {
@@ -44,7 +45,7 @@ export function BottomTabBar() {
         <span>History</span>
       </NavLink>
 
-      <NavLink to="/more" className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
+      <NavLink to="/more" className={() => `tab ${isMoreActive ? "active" : ""}`}>
         <CircleEllipsis size={24} />
         <span>More</span>
       </NavLink>

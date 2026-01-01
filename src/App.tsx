@@ -6,6 +6,7 @@ import { TemplateEditorPage } from "./pages/TemplateEditorPage";
 import { WorkoutPage } from "./pages/WorkoutPage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { MorePage } from "./pages/MorePage";
+import { SettingsPage } from "./pages/SettingsPage";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/workout" element={<WorkoutPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/more" element={<MorePage />} />
+        <Route path="/more/settings" element={<SettingsPage />} />
       </Routes>
       <BottomTabBar />
     </BrowserRouter>

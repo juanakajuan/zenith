@@ -13,7 +13,14 @@ import {
   ArrowLeftRight,
 } from "lucide-react";
 
-import type { Exercise, Workout, WorkoutExercise, WorkoutSet, WorkoutTemplate } from "../types";
+import type {
+  Exercise,
+  Workout,
+  WorkoutExercise,
+  WorkoutSet,
+  WorkoutTemplate,
+  Settings,
+} from "../types";
 import { muscleGroupLabels, exerciseTypeLabels, getMuscleGroupClassName } from "../types";
 
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -33,6 +40,9 @@ export function WorkoutPage() {
     STORAGE_KEYS.ACTIVE_WORKOUT,
     null
   );
+  const [settings] = useLocalStorage<Settings>(STORAGE_KEYS.SETTINGS, {
+    autoMatchWeight: false,
+  });
   const [showExerciseSelector, setShowExerciseSelector] = useState(false);
   const [workoutName, setWorkoutName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
@@ -131,6 +141,18 @@ export function WorkoutPage() {
       ...activeWorkout,
       exercises: activeWorkout.exercises.map((e) => {
         if (e.id !== workoutExerciseId) return e;
+
+        // Apply auto-match weight if enabled and weight is being updated
+        if (settings.autoMatchWeight && updates.weight !== undefined) {
+          return {
+            ...e,
+            sets: e.sets.map((s) =>
+              s.id === setId ? { ...s, ...updates } : { ...s, weight: updates.weight as number }
+            ),
+          };
+        }
+
+        // Normal behavior: only update the specific set
         return {
           ...e,
           sets: e.sets.map((s) => (s.id === setId ? { ...s, ...updates } : s)),

@@ -1,4 +1,4 @@
-import type { Exercise, Workout, WorkoutTemplate } from "../types";
+import type { Exercise, Workout, WorkoutTemplate, Settings } from "../types";
 
 /**
  * localStorage keys used throughout the application.
@@ -10,6 +10,7 @@ export const STORAGE_KEYS = {
   ACTIVE_WORKOUT: "zenith_active_workout",
   TEMPLATES: "zenith_templates",
   DRAFT_TEMPLATE: "zenith_draft_template",
+  SETTINGS: "zenith_settings",
 } as const;
 
 /**
@@ -259,4 +260,39 @@ export function formatRelativeDate(dateString: string): string {
     const years = Math.floor(diffDays / 365);
     return years === 1 ? "1 year ago" : `${years} years ago`;
   }
+}
+
+/**
+ * Retrieves user settings from localStorage.
+ * Returns default settings if none exist or on error.
+ *
+ * @returns Settings object with all user preferences
+ *
+ * @example
+ * const settings = getSettings();
+ * if (settings.autoMatchWeight) {
+ *   console.log('Auto-match weight is enabled');
+ * }
+ */
+export function getSettings(): Settings {
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
+    return data ? JSON.parse(data) : { autoMatchWeight: false };
+  } catch {
+    return { autoMatchWeight: false };
+  }
+}
+
+/**
+ * Saves user settings to localStorage.
+ * Overwrites existing settings.
+ *
+ * @param settings - Settings object to save
+ *
+ * @example
+ * const settings = getSettings();
+ * saveSettings({ ...settings, autoMatchWeight: true });
+ */
+export function saveSettings(settings: Settings): void {
+  localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
 }
