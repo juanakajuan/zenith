@@ -584,6 +584,7 @@ export function WorkoutPage() {
             setUpdateTemplateOnReplace(false);
           }}
           onCreateExercise={handleCreateExercise}
+          hideFilter={!!replacingWorkoutExerciseId}
           isReplacement={!!replacingWorkoutExerciseId}
           currentExerciseId={
             replacingWorkoutExerciseId
